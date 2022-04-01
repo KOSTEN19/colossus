@@ -1,0 +1,56 @@
+{% include 'header.html' %}
+<style>
+    container {
+        background-color: #ccc;
+        opacity: 1;
+        align-items: left;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 50px;
+        padding: 25px;
+        margin: 60px 0px;
+    }
+
+    p {
+        text-align: left;
+    }
+</style>
+<div style = 'width: 100%; height: 100%; margin-top: 150px;'>
+<img src="https://e7.pngegg.com/pngimages/483/664/png-clipart-user-profile-computer-icons-avatar-avatar-heroes-hand.png"
+  style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail"
+  alt="...">
+<h1 style="text-align: center;">{{form}}</h1>
+
+<h3 class=" text-center " style="margin: 10px;"> {{request.user }}</h3>
+
+<h5 class=" text-center " style="margin: 10px;">Family status : {{poloz}}</h5>
+<h4>Yours profile is very confidentional for anyone!! So we do not show them</h4>
+
+    <form method="post" target="/static/bg/" action="/">
+        <h5>Смена фонового изображения:</h5>
+        {% csrf_token %}
+        <input type="file" name="bgimg.png">
+        <input type="submit" value="Обновить">
+    </form>
+
+<container style = 'background-color: #ccc; opacity: 1 '>
+    <div class="ps">
+        <p>Earned total</p>
+        <p>Spent total</p>
+        <p>Wins</p>
+        <p>Bots bought</p>
+        <p>NFTs bought</p>
+        <p>NFTs sold</p>
+    </div>
+    <div class="nums">
+        <p>{{ Earned }}</p>
+        <p>{{ Spent }}</p>
+        <p>{{ Wins }}</p>
+        <p>{{ Bots }}</p>
+        <p>{{ NFTs_bought }}</p>
+        <p>{{ NFTs_sold }}</p>
+    </div>
+</container>
+</div>
+
+{%include 'footer.html' %}

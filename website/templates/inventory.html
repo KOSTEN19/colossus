@@ -1,0 +1,35 @@
+{% include 'header.html' %}
+</div>
+</body>
+<style>
+  .px-3 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+  }
+
+  .card {
+    margin: 20px;
+    opacity: 0.7
+  }
+</style>
+<main class="px-3">
+
+  
+  {% for item in all_data %}
+  <div class="card" style="width: 200px; height: 250px; color: black">
+
+
+    {{item.image}}
+    <div class="card-body">
+      <h5 class="card-title">{{item.name}}</h5>
+      <p class="card-text">{{item.price}} $</p>
+      <a href="/data/{{item.id}}" class="btn btn-primary">View more</a>
+    </div>
+  </div>
+  {% endfor %}
+</main>
+{% include 'footer.html' %}
