@@ -16,6 +16,10 @@
 
 > python -m pip install pillow
 
+> python manage.py makemigrations
+
+> python manage.py migrate
+
 > python manage.py runserver
 
 ### _**HOW TO RUN CodeAutoFormater**_
