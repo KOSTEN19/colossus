@@ -1,8 +1,10 @@
+"""Import line"""
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
 
 class RegisterUserForm(UserCreationForm):
+    """Class line"""
     username = forms.CharField(
         label='',
         widget=forms.TextInput(
@@ -16,6 +18,7 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(UserCreationForm):
+    """Class line"""
     username = forms.CharField(
         label='',
         widget=forms.TextInput(

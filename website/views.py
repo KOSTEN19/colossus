@@ -1,54 +1,56 @@
-from django.shortcuts import render, redirect
+"""Import line"""
 from website.models import NFT
-import datetime
-from website.forms import *
-from random import randint
-from django.contrib.auth.views import LoginView, LogoutView
+from website.forms import RegisterUserForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
-# Create your views here.
-from django.contrib.auth import login, logout
+from django.contrib.auth import logout
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView
-from django.views.generic import View
-from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView
 
 
 class DataMixin:
+    """Class line"""
+
+    def __init__(self):
+        """Function line"""
+        self.context = 0
+
     def get_user_context(self, **kwargs):
-        context = kwargs
-        if 'cat_selected' not in context:
-            context['cat_selected'] = 0
-        return context
+        """Function line"""
+        self.context = kwargs
+        if 'cat_selected' not in self.context:
+            self.context['cat_selected'] = 0
+        return self.context
 
 
-class Reg_user(DataMixin, CreateView):
+class RegUser(DataMixin, CreateView):
+    """Class line"""
     form_class = RegisterUserForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, kwargs: object):
+        """Function line"""
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Reg')
         return dict(list(context.items()) + list(c_def.items()))
 
 
 class LoginUser(DataMixin, LoginView):
+    """Class line"""
     form_class = AuthenticationForm
     template_name = 'login.html'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, kwargs: object):
+        """Function line"""
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Sign_in')
         return dict(list(context.items()) + list(c_def.items()))
 
 
-def LogoutUser(request):
+def logout_user(request):
+    """Function line"""
     logout(request)
     return redirect('/')
 
@@ -56,6 +58,7 @@ def LogoutUser(request):
 
 
 def main_page(request):
+    """Function line"""
     context = {'page': 'main'}
     if request.method == 'POST':
         namenft = request.POST.get('name')
@@ -72,41 +75,45 @@ def main_page(request):
 
 
 def login_page(request):
+    """Function line"""
     context = {'page': 'create'}
     return render(request, 'login.html', context)
 
 
 def data_post_id(request, post_id):
-    ass = get_object_or_404(NFT, id=post_id)
-    q = get_object_or_404(NFT, id=post_id)
-    context = {'form': q}
+    """Function line"""
+    query = get_object_or_404(NFT, id=post_id)
+    context = {'form': query}
     return render(request, 'one_nft.html', context)
 
 
 def profile_page(request):
+    """Function line"""
     context = {'page': 'profile', 'height': '20'}
     return render(request, 'profile.html', context)
 
 
 def game_page(request):
+    """Function line"""
     context = {'height': '40', 'page': 'game'}
     return render(request, 'game.html', context)
 
 
 def inventory_page(request):
-    #ass= list(get_object_or_404(NFT,owner=str(request.user)))
+    """Function line"""
     ass = NFT.objects.filter(owner=str(request.user))
     context = {'all_data': ass, 'height': '40'}
     return render(request, 'market.html', context)
 
 
 def clicker_page(request):
+    """Function line"""
     context = {'page': 'clicker'}
     return render(request, 'clicker.html', context)
 
 
 def market_page(request):
-    contex = {}
+    """Function line"""
     context = {
         'all_data': NFT.objects.all(),
         'page': 'market',
@@ -135,6 +142,7 @@ def market_page(request):
 
 
 def transaction(request):
+    """Function line"""
     context = {}
     if request.method == 'GET':
         try:
@@ -151,6 +159,7 @@ def transaction(request):
 
 
 def create_page(request):
+    """Function line"""
     context = {
 
         'page': 'create'
@@ -158,9 +167,3 @@ def create_page(request):
     }
 
     return render(request, 'create_NFT.html', context)
-
-
-def LogoutUser(request):
-    print('logout')
-    logout(request)
-    return redirect('/')
