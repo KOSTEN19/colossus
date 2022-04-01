@@ -13,6 +13,11 @@ ___________        .___                            ________              .____  
 
 </details>
 
+<br>
+
+# [DOWNLOAD FEDORA-DEVLAB](https://drive.google.com/file/d/1BKLef4OydDLxXGkjuwwGUmlfFLBIcOvg/view?usp=sharing) 
+
+<br>
 
 ## **Почему именно Fedora-DevLab ?**
 
