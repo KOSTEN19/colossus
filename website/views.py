@@ -1,6 +1,7 @@
 """Import line"""
 from website.models import NFT
-from website.forms import RegisterUserForm
+from user.models import *
+from website.forms import *
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
@@ -26,11 +27,11 @@ class DataMixin:
 
 class RegUser(DataMixin, CreateView):
     """Class line"""
-    form_class = RegisterUserForm
+    form_class = CustomUserCreationForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
 
-    def get_context_data(self, *, kwargs: object):
+    def get_context_data(self, **kwargs):
         """Function line"""
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Reg')
@@ -42,7 +43,7 @@ class LoginUser(DataMixin, LoginView):
     form_class = AuthenticationForm
     template_name = 'login.html'
 
-    def get_context_data(self, *, kwargs: object):
+    def get_context_data(self, **kwargs):
         """Function line"""
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Sign_in')
@@ -145,18 +146,26 @@ def transaction(request):
     """Function line"""
     context = {}
     if request.method == 'GET':
-        try:
-            sort = request.GET.get('buy_id')
-            ass = get_object_or_404(NFT, id=sort)
+        
+        sort = request.GET.get('buy_id')
+        ass = get_object_or_404(NFT, id=sort)
+        person = get_object_or_404(CustomUser, username=request.user)
+        print(person.balance)
+        print(person)
+        if int(person.balance) >=int(ass.price) and str(person.username)!=str(ass.owner):
+            print(person.balance)
+            print(person.balance)
+            person.balance-=int(ass.price)
+            person.save()
+            print(person.balance)
             ass.owner = str(request.user)
             ass.save()
             context.update({
-                'text': 'transaction compleate!!!!'})
-        except BaseException:
-            sort = ''
-            context.update({'text': 'something go bad :('})
+                    'text': 'transaction compleate!!!!'})
+        else:
+            context.update({
+                'text': 'Not enought money or it is yours :(' })    
     return render(request, 'transaction.html', context)
-
 
 def create_page(request):
     """Function line"""

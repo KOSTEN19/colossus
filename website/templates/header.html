@@ -65,7 +65,7 @@
         {% endif %}
         {% endif %}
         {% if request.user.is_authenticated %}
-        <div class="nav-link ">1 000 000</div>
+        <div class="nav-link ">{{request.user.balance}}</div>
         {% if page == "profile" %}
         <a class="nav-link active" href="/profile/">{{ request.user }}</a>
         {% else %}
