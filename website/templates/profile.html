@@ -16,23 +16,36 @@
     }
 </style>
 <div style = 'width: 100%; height: 100%; margin-top: 150px;'>
-<img src="https://e7.pngegg.com/pngimages/483/664/png-clipart-user-profile-computer-icons-avatar-avatar-heroes-hand.png"
-  style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail"
+    <p>{{request.user.profile_pic.url}}</p>
+<img src=" {{request.user.profile_pic.url}}"
+style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail"
   alt="...">
 <h1 style="text-align: center;">{{form}}</h1>
 
 <h3 class=" text-center " style="margin: 10px;"> {{request.user }}</h3>
-
-<h5 class=" text-center " style="margin: 10px;">Family status : {{poloz}}</h5>
-<h4>Yours profile is very confidentional for anyone!! So we do not show them</h4>
-
-    <form method="post" target="/static/bg/" action="/">
-        <h5>Смена фонового изображения:</h5>
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      Settings
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="#">Action</a></li>
+      <li> <form method="post"  action="">
+        <h5>Смена изображения профиля:</h5>
         {% csrf_token %}
-        <input type="file" name="bgimg.png">
+        <input type="file" name="myfile">
+        <input type="submit" value="Обновить">
+    </form></li>
+
+    </ul>
+  </div>
+    <form method="POST" target="/static/bg/" action="/" enctype="multipart/form-data">
+        <h5>Смена изображения профиля:</h5>
+        {% csrf_token %}
+       // {{form.as_p}}\\
+        <input type="image" name="bgimg.png">
         <input type="submit" value="Обновить">
     </form>
-
+    {{form.as_p}}
 <container style = 'background-color: #ccc; opacity: 1 '>
     <div class="ps">
         <p>Earned total</p>

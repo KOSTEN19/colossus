@@ -34,7 +34,8 @@
 </style>
 <form action='/transaction' method="GET">
 <div class="block">
-    <img id="foo" class="nft rounded-3" src="{{form.image}}" onerror="standby()">
+    <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
+   
     <div class="txt">
         <h1  class = 'it'> Name : {{form.name}}</h1>
         <h5 class = "description it">{{form.description}}</h5>

@@ -4,18 +4,18 @@
 <div class="row g-3">
 
   <div class="mb-3">
-    <form method="POST" encrypt="multipart/form-data" action='/'>
+    <form method="POST" enctype="multipart/form-data" action='/'>
       {% csrf_token %}
       <div class="col">
         <input type="text" class="form-control" name="name" placeholder="First name" aria-label="First name"
-          style='margin: 10px;'>
+          style='margin: 10px;' required>
           <input type="text" class="form-control" name="description" placeholder="description" aria-label="description"
-          style='margin: 10px;'>
+          style='margin: 10px;' required>
         <input type="number" class="form-control" name="price" placeholder="Price" aria-label="Price" min="1"
-          style='margin: 10px;'>
+          style='margin: 10px;' required >
       </div>
       <label for="formFile" class="form-label"></label>
-      <input class="form-control" type="file" name="myfile">
+      <input class="form-control" type="file"  accept="image/png, image/gif, image/jpeg"  name="myfile" required>
       <div class="col" style='margin: 10px;'>
         <input type="submit" class="btn btn-secondary" name="submit" value='Upload' /><br />
       </div>

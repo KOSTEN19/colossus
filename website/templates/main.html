@@ -3,11 +3,12 @@
   <h1>New NFT trading platform</h1>
   <p class="lead">Вся эта ваша криптовалюта, акции, фьючерсы, паи. Вот раньше было лучше!! Во всём виноваты, как всегда,
     эти пендосы тупые....</p>
+    {% if not request.user.is_authenticated %}
+  <p class="lead"><a type="button" href="/registory/" class="btn btn-primary btn-lg" id="buttonalert">Get started</a></p>
+{% else %}
+<p class="lead"><a type="button" href="/create/" class="btn btn-primary btn-lg" id="buttonalert">Add new NFT</a></p>
+{% endif %}
 
-  <p class="lead">
-    <a type="button" href="/create/" class="btn btn-primary btn-lg" id="buttonalert">Add new NFT</a>
-
-  </p>
 </main>
 
 

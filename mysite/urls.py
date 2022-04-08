@@ -35,6 +35,4 @@ urlpatterns = [
     path('transaction/', views.transaction),
 
     path('game/', views.game_page),
-]
-if settings.DEBUG:
-    urlpatterns += static(settings.NFT_URL, document_root=settings.NFT_ROOT)
+]+  static(settings.NFT_URL, document_root = settings.NFT_ROOT)

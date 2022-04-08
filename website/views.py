@@ -89,8 +89,17 @@ def data_post_id(request, post_id):
 
 
 def profile_page(request):
+    person = get_object_or_404(CustomUser, username=request.user)
     """Function line"""
-    context = {'page': 'profile', 'height': '20'}
+    if request.method == 'POST':
+        #namenft = request.POST.get('name')
+      # user = request.user
+      #  form =  CustomUser(instance = user)
+        
+        print('yes!!!')
+        
+        person.save()
+    context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)
 
 
