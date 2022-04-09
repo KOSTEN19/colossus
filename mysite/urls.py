@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('profile/', views.profile_page),
-    path('inventory/', views.inventory_page),
+    path('inventory/', views.inventory_page, name = 'inventory'),
 
     path('data/<int:post_id>', views.data_post_id),
     path('', views.main_page, ),
@@ -34,5 +34,5 @@ urlpatterns = [
     path('logout/', views.logout_user),
     path('transaction/', views.transaction),
 
-    path('game/', views.game_page),
+    path('game/', views.game_page, name = 'game'),
 ] + static(settings.NFT_URL, document_root=settings.NFT_ROOT)

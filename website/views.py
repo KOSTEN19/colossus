@@ -92,35 +92,48 @@ def profile_page(request):
     """Function line"""
     person = get_object_or_404(CustomUser, username=request.user)
     if request.method == 'POST':
-        #namenft = request.POST.get('name')
-      # user = request.user
-      #  form =  CustomUser(instance = user)
-
-        print('yes!!!')
-
         person.save()
     context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)
-
 
 def game_page(request):
     """Function line."""
     context = {'height': '40', 'page': 'game'}
     return render(request, 'game.html', context)
 
-
 def inventory_page(request):
     """Function line."""
-    ass = NFT.objects.filter(owner=str(request.user))
-    context = {'all_data': ass, 'height': '40'}
-    return render(request, 'market.html', context)
+    
+    context = {
+        'all_data':NFT.objects.filter(owner=str(request.user)),
+        'page': 'inventory',
+        'height': '40'
+    }
+    if request.method == 'GET':
 
+        try:
+            sort = request.GET['sort']
+        except BaseException:
+            sort = ''
+
+        if sort == 'name':
+            context = {
+                'all_data': NFT.objects.filter(owner=str(request.user)).order_by('name'),
+                'page': 'inventory',
+                'height': '40'
+            }
+        if sort == 'price':
+            context = {
+                'all_data': NFT.objects.filter(owner=str(request.user)).order_by('-price')[::-1],
+                'page': 'inventory',
+                'height': '40'
+            }
+    return render(request, 'inventory.html', context)
 
 def clicker_page(request):
     """Function line."""
     context = {'page': 'clicker'}
     return render(request, 'clicker.html', context)
-
 
 def market_page(request):
     """Function line."""
@@ -138,18 +151,17 @@ def market_page(request):
 
         if sort == 'name':
             context = {
-                'all_data': NFT.objects.order_by('name')[::-1],
+                'all_data': NFT.objects.order_by('name'),
                 'page': 'market',
                 'height': '40'
             }
-        if sort == 'name':
+        if sort == 'price':
             context = {
-                'all_data': NFT.objects.order_by('price')[::-1],
+                'all_data': NFT.objects.order_by('-price')[::-1],
                 'page': 'market',
                 'height': '40'
             }
     return render(request, 'market.html', context)
-
 
 def transaction(request):
     """Function line."""
@@ -184,9 +196,6 @@ def transaction(request):
 def create_page(request):
     """Function line."""
     context = {
-
         'page': 'create'
-
     }
-
     return render(request, 'create_NFT.html', context)
