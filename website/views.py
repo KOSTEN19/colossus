@@ -1,6 +1,6 @@
-"""Import line"""
+"""Import line."""
+from user.models import CustomUser
 from website.models import NFT
-from user.models import *
 from website.forms import *
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
@@ -11,14 +11,14 @@ from django.views.generic import CreateView
 
 
 class DataMixin:
-    """Class line"""
+    """Class line."""
 
     def __init__(self):
-        """Function line"""
+        """Function line."""
         self.context = 0
 
     def get_user_context(self, **kwargs):
-        """Function line"""
+        """Function line."""
         self.context = kwargs
         if 'cat_selected' not in self.context:
             self.context['cat_selected'] = 0
@@ -26,32 +26,32 @@ class DataMixin:
 
 
 class RegUser(DataMixin, CreateView):
-    """Class line"""
+    """Class line."""
     form_class = CustomUserCreationForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
 
     def get_context_data(self, **kwargs):
-        """Function line"""
+        """Function line."""
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Reg')
         return dict(list(context.items()) + list(c_def.items()))
 
 
 class LoginUser(DataMixin, LoginView):
-    """Class line"""
+    """Class line."""
     form_class = AuthenticationForm
     template_name = 'login.html'
 
     def get_context_data(self, **kwargs):
-        """Function line"""
+        """Function line."""
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Sign_in')
         return dict(list(context.items()) + list(c_def.items()))
 
 
 def logout_user(request):
-    """Function line"""
+    """Function line."""
     logout(request)
     return redirect('/')
 
@@ -59,7 +59,7 @@ def logout_user(request):
 
 
 def main_page(request):
-    """Function line"""
+    """Function line."""
     context = {'page': 'main'}
     if request.method == 'POST':
         namenft = request.POST.get('name')
@@ -76,54 +76,54 @@ def main_page(request):
 
 
 def login_page(request):
-    """Function line"""
+    """Function line."""
     context = {'page': 'create'}
     return render(request, 'login.html', context)
 
 
 def data_post_id(request, post_id):
-    """Function line"""
+    """Function line."""
     query = get_object_or_404(NFT, id=post_id)
     context = {'form': query}
     return render(request, 'one_nft.html', context)
 
 
 def profile_page(request):
-    person = get_object_or_404(CustomUser, username=request.user)
     """Function line"""
+    person = get_object_or_404(CustomUser, username=request.user)
     if request.method == 'POST':
         #namenft = request.POST.get('name')
       # user = request.user
       #  form =  CustomUser(instance = user)
-        
+
         print('yes!!!')
-        
+
         person.save()
     context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)
 
 
 def game_page(request):
-    """Function line"""
+    """Function line."""
     context = {'height': '40', 'page': 'game'}
     return render(request, 'game.html', context)
 
 
 def inventory_page(request):
-    """Function line"""
+    """Function line."""
     ass = NFT.objects.filter(owner=str(request.user))
     context = {'all_data': ass, 'height': '40'}
     return render(request, 'market.html', context)
 
 
 def clicker_page(request):
-    """Function line"""
+    """Function line."""
     context = {'page': 'clicker'}
     return render(request, 'clicker.html', context)
 
 
 def market_page(request):
-    """Function line"""
+    """Function line."""
     context = {
         'all_data': NFT.objects.all(),
         'page': 'market',
@@ -152,32 +152,37 @@ def market_page(request):
 
 
 def transaction(request):
-    """Function line"""
+    """Function line."""
     context = {}
     if request.method == 'GET':
-        
+
         sort = request.GET.get('buy_id')
         ass = get_object_or_404(NFT, id=sort)
         person = get_object_or_404(CustomUser, username=request.user)
         print(person.balance)
         print(person)
-        if int(person.balance) >=int(ass.price) and str(person.username)!=str(ass.owner):
+        if int(
+            person.balance) >= int(
+            ass.price) and str(
+            person.username) != str(
+                ass.owner):
             print(person.balance)
             print(person.balance)
-            person.balance-=int(ass.price)
+            person.balance -= int(ass.price)
             person.save()
             print(person.balance)
             ass.owner = str(request.user)
             ass.save()
             context.update({
-                    'text': 'transaction compleate!!!!'})
+                'text': 'transaction compleate!!!!'})
         else:
             context.update({
-                'text': 'Not enought money or it is yours :(' })    
+                'text': 'Not enought money or it is yours :('})
     return render(request, 'transaction.html', context)
 
+
 def create_page(request):
-    """Function line"""
+    """Function line."""
     context = {
 
         'page': 'create'

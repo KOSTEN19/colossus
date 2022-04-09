@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" class="h-100">
-
 {% load static %}
 <meta charset="utf-8">
 <link rel="icon" href="/static/wllp/favoicon.png" type="image/x-icon" />
@@ -12,11 +11,8 @@
 {% include 'style/bootstrap.min.html' %}
 
 <body class="d-flex h-100 text-center text-white bg-dark flex-column">
-
   <div class=" cover-container d-flex w-100 h-{% if height %}{{ height }}{% else %}100{% endif %} p-3 mx-auto flex-column">
-
     <header class="mb-auto">
-
       <nav class="nav nav-masthead justify-content-center float-md-start">
         {% if page == "main" %}
         <a class="nav-link active" aria-current="page" href="/">Home</a>
@@ -25,8 +21,6 @@
         {% endif %}
         {% if page == "market" %}
         <a class="nav-link active" href="/market/">TC market</a>
-
-
         <div style="margin-left: 1rem;">
           <form action='/market/'>
             <div class="dropdown">
@@ -36,13 +30,10 @@
               <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                 <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>By name</button></li>
                 <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>By price</button></li>
-
               </ul>
             </div>
           </form>
         </div>
-
-
         {% else %}
         <a class="nav-link" href="/market/">TC market</a>
         {% endif %}
@@ -75,13 +66,11 @@
         <a class="nav-link active" href="/clicker/">clicker</a>
         {% else %}
         <a class="nav-link " href="/clicker/">clicker</a>
-
         {% endif %} 
         {% if page == "game" %}
         <a class="nav-link active" href="/game/">game</a>
         {% else %}
         <a class="nav-link " href="/game/">game</a>
-
         {% endif %} 
         {% if page == "inventory" %}
         <a class="nav-link active" href="/inventory/">Inventory</a>
@@ -93,5 +82,4 @@
         <a class="nav-link" href="/logout">Logout</a>
         {% endif %}
       </nav>
-
     </header>

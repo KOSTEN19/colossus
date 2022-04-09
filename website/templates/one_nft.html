@@ -5,11 +5,8 @@
         document.getElementById('foo').src = 'https://bayctron.com/_next/image?url=%2Fanimation%2Floading.gif&w=640&q=75'
 
     }
- //   function alerted(){
- // alert("Увы, но NFT национализирована и не божет быть продана!!!!!!");
-//}
-
 </script>
+
 <style>
     .block {
 
@@ -24,26 +21,24 @@
         width: 20%;
 
     }
+
     .txt{
         margin-left: 20px;
         align-items: center;
     }
+
     .it{
         margin: 30px;
     }
 </style>
 <form action='/transaction' method="GET">
-<div class="block">
-    <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
-   
-    <div class="txt">
-        <h1  class = 'it'> Name : {{form.name}}</h1>
-        <h5 class = "description it">{{form.description}}</h5>
-       
-        <button class="btn btn-primary it"  name="buy_id" value = '{{form.id}}'  >Buy for {{form.price}} tc  </button>
+    <div class="block">
+        <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
+        <div class="txt">
+            <h1  class = 'it'> Name : {{form.name}}</h1>
+            <h5 class = "description it">{{form.description}}</h5>
+            <button class="btn btn-primary it"  name="buy_id" value = '{{form.id}}'  >Buy for {{form.price}} tc  </button>
+        </div>
     </div>
-</div>
 </form>
-
-
 {% include 'footer.html' %}

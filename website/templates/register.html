@@ -1,16 +1,12 @@
 {% include 'header.html' %}
-
 {% include 'style/login_register_style.html' %}
 <style>
-
     *{
         color: black;
     }
 </style>
 <body>
-
     <div class="wrapper fadeInDown">
-
         <form method="post">
             {% csrf_token %}
             <div id="formContent">
@@ -19,13 +15,10 @@
                 <div class="form-error"> {{f.errors}}</div>
                 <p><span for='{{f.id_for_label}}'> {{ f.label}} </span>{{f}}</p>
                 <div class="form-error"> {{f.errors}}</div>
-
                 {% endfor %}
                 <input type="submit" value="Sign up" class="but">
             </div>
         </form>
-
     </div>
 </body>
-
 {% include 'footer.html' %}

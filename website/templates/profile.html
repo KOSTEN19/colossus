@@ -1,6 +1,6 @@
 {% include 'header.html' %}
 <style>
-    container {
+    container{
         background-color: #ccc;
         opacity: 1;
         align-items: left;
@@ -11,59 +11,57 @@
         margin: 60px 0px;
     }
 
-    p {
+    p{
         text-align: left;
     }
 </style>
 <div style = 'width: 100%; height: 100%; margin-top: 150px;'>
     <p>{{request.user.profile_pic.url}}</p>
-<img src=" {{request.user.profile_pic.url}}"
-style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail"
-  alt="...">
-<h1 style="text-align: center;">{{form}}</h1>
+    <img src=" {{request.user.profile_pic.url}}" style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail" alt="...">
+    <h1 style="text-align: center;">{{form}}</h1>
+    <h3 class=" text-center " style="margin: 10px;"> {{request.user }}</h3>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Settings
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li>
+              <form method="post"  action="">
+                <h5>Смена изображения профиля:</h5>
+                {% csrf_token %}
+                <input type="file" name="myfile">
+                <input type="submit" value="Обновить">
+              </form>
+          </li>
 
-<h3 class=" text-center " style="margin: 10px;"> {{request.user }}</h3>
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Settings
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li> <form method="post"  action="">
-        <h5>Смена изображения профиля:</h5>
-        {% csrf_token %}
-        <input type="file" name="myfile">
-        <input type="submit" value="Обновить">
-    </form></li>
-
-    </ul>
-  </div>
+        </ul>
+    </div>
     <form method="POST" target="/static/bg/" action="/" enctype="multipart/form-data">
         <h5>Смена изображения профиля:</h5>
         {% csrf_token %}
-       // {{form.as_p}}\\
         <input type="image" name="bgimg.png">
         <input type="submit" value="Обновить">
     </form>
     {{form.as_p}}
-<container style = 'background-color: #ccc; opacity: 1 '>
-    <div class="ps">
-        <p>Earned total</p>
-        <p>Spent total</p>
-        <p>Wins</p>
-        <p>Bots bought</p>
-        <p>NFTs bought</p>
-        <p>NFTs sold</p>
-    </div>
-    <div class="nums">
-        <p>{{ Earned }}</p>
-        <p>{{ Spent }}</p>
-        <p>{{ Wins }}</p>
-        <p>{{ Bots }}</p>
-        <p>{{ NFTs_bought }}</p>
-        <p>{{ NFTs_sold }}</p>
-    </div>
-</container>
+    <container style = 'background-color: #ccc; opacity: 1 '>
+        <div class="ps">
+            <p>Earned total</p>
+            <p>Spent total</p>
+            <p>Wins</p>
+            <p>Bots bought</p>
+            <p>NFTs bought</p>
+            <p>NFTs sold</p>
+        </div>
+        <div class="nums">
+            <p>{{ Earned }}</p>
+            <p>{{ Spent }}</p>
+            <p>{{ Wins }}</p>
+            <p>{{ Bots }}</p>
+            <p>{{ NFTs_bought }}</p>
+            <p>{{ NFTs_sold }}</p>
+        </div>
+    </container>
 </div>
 
 {%include 'footer.html' %}
