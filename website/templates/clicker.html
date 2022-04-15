@@ -2,9 +2,17 @@
 
 <main>
     <h2>Игра кликер</h2>
-    <h1 id ="score">0$</h1>
+    
     <h3 id="level">Ваш уровень: 1</h3>
-    <img id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
+    <img   value = '1' id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
+
+
+
+<form method="POST"  action='/clicker/'>
+    {% csrf_token %}
+    <input id ="score" type="number" name = 'balance' value="{{request.user.balance}}" >
+    <input  type="submit" class="btn btn-primary" value="top up">
+</form>
     <div class="d-grid gap-2 col-6 mx-auto">
     <input class="btn btn-primary" type="button"  value="Прокачать на 1 уровень|-100$" onclick="update()">
     <input class="btn btn-primary" type="button" type="button" value="Прокачать на 2 уровня|-150$" onclick="update1()">
@@ -31,13 +39,15 @@ window.onunload = () => {
     localStorage.setItem('score', score)
 };
 teg();
-
 function teg() {
     document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
 }
 //+$
 function clickBtn() {
     score = score + updating;
+    var Myelement = document.getElementById("score");
+    
+    Myelement.value = parseInt(Myelement.value, 10) + 1;
     teg();
     new Audio('img/jg-032316-sfx-elevator-button.mp3').play();
     return false;

@@ -8,6 +8,15 @@ window.onunload = () => {
   localStorage.setItem('score', score)
 };
 teg();
+function save_score() {
+  $.ajax({
+       url: '/clicker/',
+       data: {'final_score': score},
+       type: 'POST'
+     }).done(function(response){
+       console.log(response);
+     });
+}
 function teg () {
   document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
 }
