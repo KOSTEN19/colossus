@@ -135,7 +135,7 @@ def clicker_page(request):
 
     if request.method == 'POST':
         player =  get_object_or_404(CustomUser, username=request.user)
-        player.balance = (request.POST.get('balance'))
+        player.balance += int((request.POST.get('balance')))
         player.save()
     context = {'page': 'clicker'}
     return render(request, 'clicker.html', context)
