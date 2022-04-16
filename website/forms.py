@@ -2,10 +2,11 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from user.models import CustomUser
 
+
 class CustomUserCreationForm(UserCreationForm):
-    """CLass line"""
+    """CLass line."""
     class Meta:
-        """Class line"""
+        """Class line."""
         model = CustomUser
         fields = ('username',)
         #fields = "__all__"
@@ -13,9 +14,9 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
-    """Class line"""
+    """Class line."""
     class Meta:
-        """Class line"""
+        """Class line."""
         model = CustomUser
         fields = '__all__'
         #fields = ('balance')
