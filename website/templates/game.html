@@ -28,19 +28,52 @@
 
     }
 </style>
-
 <script>
-function input_fn(elem){
-    if (elem.style.backgroundColor == "red") {
-        elem.style.backgroundColor = "white";
-    }
-    else{
+let a =0
 
-        elem.style.backgroundColor = "red"
-    }  
+function input_fn(elem){
+    if (a == 0){
+     elem.style.backgroundColor = "red";
+    }
+    if (a == 1){
+     elem.style.backgroundColor = "blue";
+    }
+    if (a == 2){
+     elem.style.backgroundColor = "green";
+    }
+    if (a == 3){
+     elem.style.backgroundColor = "yellow";
+    }
+    if (a == 4){
+     elem.style.backgroundColor = "black";
+    }
+    if (a == 5){
+     elem.style.backgroundColor = "white";
+    }
   }
+function input_collor(elem){
+    if(elem==0){
+    a=0;
+    }
+if(elem==1){
+    a=1;
+    }
+if(elem==2){
+    a=2;
+    }
+if(elem==3){
+    a=3;
+    }
+if(elem==4){
+    a=4;
+    }
+if(elem==5){
+    a=5;
+    }
+
+}
 </script>
-  
+
 <container>
 <table>
     <tr>
@@ -164,6 +197,13 @@ function input_fn(elem){
         <th id="old_id" style="background-color: #ffffff" onclick="input_fn(this)"></th>
     </tr>
 </table>
+    <button id = "color0" onclick="input_collor(0)"> red</button>
+    <button id = "color1" onclick="input_collor(1)">blue</button>
+    <button id = "color2" onclick="input_collor(2)">green</button>
+    <button id = "color3" onclick="input_collor(3)">yellow</button>
+    <button id = "color4" onclick="input_collor(4)">black</button>
+    <button id = "color5" onclick="input_collor(5)">white</button>
+
 </container>
 
 <script>
