@@ -178,18 +178,26 @@ def transaction(request):
     if request.method == 'GET':
         buy = request.GET.get('buy_id')
         sell = request.GET.get('sell_id')
+        print(buy, type(buy))
+        print(sell, type(sell))
         person = get_object_or_404(CustomUser, username=request.user)
-        print(person.balance)
-        print(person)
-        if sell:
+       # print(person.balance)
+        #print(person)
+        if sell  :
             ass = get_object_or_404(NFT, id=sell)
             if person.username == str(ass.owner):
                 ass.owner=''
                 ass.save()
                 person.balance+=int(ass.price)
                 person.save()
-        elif buy:    
-            ass = get_object_or_404(NFT, id=buy)
+                context.update({
+                    'text': 'transaction compleate!!!!'})
+            else:
+                context.update({
+                    'text': 'Not enought money or it is yours :('})    
+        elif buy :    
+            ass = get_object_or_404(NFT, id=int(buy))
+            print(ass)
             if int(
                 person.balance) >= int(
                 ass.price) and str(
