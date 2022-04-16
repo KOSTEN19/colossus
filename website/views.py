@@ -89,27 +89,29 @@ def data_post_id(request, post_id):
 
 
 def profile_page(request):
-    """Function line"""
+    """Function line."""
     person = get_object_or_404(CustomUser, username=request.user)
     if request.method == 'POST':
         profile_image = request.FILES.get('myfile')
         print('in post')
-        person.profile_pic=profile_image
+        person.profile_pic = profile_image
         print(profile_image)
         person.save()
     context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)
+
 
 def game_page(request):
     """Function line."""
     context = {'height': '40', 'page': 'game'}
     return render(request, 'game.html', context)
 
+
 def inventory_page(request):
     """Function line."""
-    
+
     context = {
-        'all_data':NFT.objects.filter(owner=str(request.user)),
+        'all_data': NFT.objects.filter(owner=str(request.user)),
         'page': 'inventory',
         'height': '40'
     }
@@ -122,27 +124,27 @@ def inventory_page(request):
 
         if sort == 'name':
             context = {
-                'all_data': NFT.objects.filter(owner=str(request.user)).order_by('name'),
+                'all_data': NFT.objects.filter(
+                    owner=str(
+                        request.user)).order_by('name'),
                 'page': 'inventory',
-                'height': '40'
-            }
+                'height': '40'}
         if sort == 'price':
-            context = {
-                'all_data': NFT.objects.filter(owner=str(request.user)).order_by('-price')[::-1],
-                'page': 'inventory',
-                'height': '40'
-            }
+            context = {'all_data': NFT.objects.filter(owner=str(request.user)).order_by(
+                '-price')[::-1], 'page': 'inventory', 'height': '40'}
     return render(request, 'inventory.html', context)
+
 
 def clicker_page(request):
     """Function line."""
 
     if request.method == 'POST':
-        player =  get_object_or_404(CustomUser, username=request.user)
-        player.balance += min(100000,abs(int((request.POST.get('balance')))))
+        player = get_object_or_404(CustomUser, username=request.user)
+        player.balance += min(100000, abs(int((request.POST.get('balance')))))
         player.save()
     context = {'page': 'clicker'}
     return render(request, 'clicker.html', context)
+
 
 def market_page(request):
     """Function line."""
@@ -171,6 +173,7 @@ def market_page(request):
                 'height': '40'
             }
     return render(request, 'market.html', context)
+
 
 def transaction(request):
     """Function line."""
