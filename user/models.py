@@ -7,5 +7,5 @@ class CustomUser(AbstractUser):
     """Class line"""
     #USERNAME_FIELD =
     #PASSWORD_FIELD = models.CharField()
-    profile_pic = models.ImageField(null=True, blank = True , upload_to = 'nfts/')
+    profile_pic = models.ImageField(null=True, blank = True , upload_to = 'static/users/pictures')
     balance = models.IntegerField(default=100000)

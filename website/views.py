@@ -92,6 +92,10 @@ def profile_page(request):
     """Function line"""
     person = get_object_or_404(CustomUser, username=request.user)
     if request.method == 'POST':
+        profile_image = request.FILES.get('myfile')
+        print('in post')
+        person.profile_pic=profile_image
+        print(profile_image)
         person.save()
     context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)

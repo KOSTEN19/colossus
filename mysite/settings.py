@@ -122,7 +122,8 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
-
+USERS_URL ='/users/'
+USERS_ROOT = os.path.join(BASE_DIR, 'users')
 NFT_URL = '/nfts/'
 NFT_ROOT = os.path.join(BASE_DIR, 'nfts')
 STATICFILES_DIRS = (
