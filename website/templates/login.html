@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=\, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    *{
+        color: black;
+    }
+</style>
 {% include 'style/login_register_style.html' %}
 <body id="element">
     <div class="wrapper fadeInDown">
@@ -14,6 +19,7 @@
             {% csrf_token %}
             <div id="formContent">
                 <h2 class="active"> Login </h2>
+                <div class="form-error"> {{f.errors}}</div>
                 <div class = 'form-error'>{{ form.non_field_errors }}</div>
                 {% for f in form %}
                 <p><span for='{{f.id_for_label}}'> {{ f.label}}   </span>{{f}}</p>

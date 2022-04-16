@@ -10,11 +10,11 @@
 
 <form method="POST"  action='/clicker/'>
     {% csrf_token %}
-    <input  readonly id ="score" name = 'balance' type = 'number' value = '0'>
+    <input  readonly id ="score" name = 'balance' type = 'number' value = '0' onclick="resetB()">
     
     
 
-     <input type="submit" class="btn btn-primary" value="top up">
+     <input type="submit" class="btn btn-primary" value="top up"  onclick="resetB()">
 </form>
     <div class="d-grid gap-2 col-6 mx-auto">
     <input class="btn btn-primary" type="button"  value="Прокачать на 1 уровень|-100$" onclick="update()">
@@ -45,12 +45,20 @@ teg();
 function teg() {
   //  document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
   }
+  function resetB() {
+     
+  //  document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
+    score = 0
+}
 //+$
 function clickBtn() {
     score = score + updating;
     var Myelement = document.getElementById("score");
     //parseInt(Myelement.value, 10) + 1;
     Myelement.value = score+1 
+    score= Math.abs(score)
+   
+    
     teg();
     new Audio('img/jg-032316-sfx-elevator-button.mp3').play();
     return false;
