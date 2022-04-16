@@ -37,7 +37,12 @@
         <div class="txt">
             <h1  class = 'it'> Name : {{form.name}}</h1>
             <h5 class = "description it">{{form.description}}</h5>
+            {% if form.owner == request.user %}
+            <button class="btn btn-primary it"  name="sell_id" value = '{{form.id}}'  >Sell for {{form.price}} tc  </button>
+          
+            {% else %}
             <button class="btn btn-primary it"  name="buy_id" value = '{{form.id}}'  >Buy for {{form.price}} tc  </button>
+            {% endif %}
         </div>
     </div>
 </form>

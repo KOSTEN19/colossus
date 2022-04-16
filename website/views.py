@@ -147,7 +147,7 @@ def clicker_page(request):
 def market_page(request):
     """Function line."""
     context = {
-        'all_data': NFT.objects.all(),
+        'all_data': NFT.objects.all().exclude(owner=str(request.user)),
         'page': 'market',
         'height': '40'
     }
@@ -176,29 +176,37 @@ def transaction(request):
     """Function line."""
     context = {}
     if request.method == 'GET':
-
-        sort = request.GET.get('buy_id')
-        ass = get_object_or_404(NFT, id=sort)
+        buy = request.GET.get('buy_id')
+        sell = request.GET.get('sell_id')
         person = get_object_or_404(CustomUser, username=request.user)
         print(person.balance)
         print(person)
-        if int(
-            person.balance) >= int(
-            ass.price) and str(
-            person.username) != str(
-                ass.owner):
-            print(person.balance)
-            print(person.balance)
-            person.balance -= int(ass.price)
-            person.save()
-            print(person.balance)
-            ass.owner = str(request.user)
-            ass.save()
-            context.update({
-                'text': 'transaction compleate!!!!'})
-        else:
-            context.update({
-                'text': 'Not enought money or it is yours :('})
+        if sell:
+            ass = get_object_or_404(NFT, id=sell)
+            if person.username == str(ass.owner):
+                ass.owner=''
+                ass.save()
+                person.balance+=int(ass.price)
+                person.save()
+        elif buy:    
+            ass = get_object_or_404(NFT, id=buy)
+            if int(
+                person.balance) >= int(
+                ass.price) and str(
+                person.username) != str(
+                    ass.owner):
+                print(person.balance)
+                print(person.balance)
+                person.balance -= int(ass.price)
+                person.save()
+                print(person.balance)
+                ass.owner = str(request.user)
+                ass.save()
+                context.update({
+                    'text': 'transaction compleate!!!!'})
+            else:
+                context.update({
+                    'text': 'Not enought money or it is yours :('})
     return render(request, 'transaction.html', context)
 
 

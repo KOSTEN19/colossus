@@ -15,9 +15,19 @@
         text-align: left;
     }
 </style>
-<div style = 'width: 100%; height: 100%; margin-top: 150px;'>
+<script>
+    function standby() {
+        document.getElementById('foo').src = 'https://bayctron.com/_next/image?url=%2Fanimation%2Floading.gif&w=640&q=75'
 
-    <img  src="{{request.user.profile_pic.url}}"  alt = '..' style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail" alt="...">
+    }
+</script>
+<div style = 'width: 100%; height: 100%; margin-top: 150px;'>
+    {% if request.user.profile_pic.url %}
+    
+    <img  src="{{request.user.profile_pic.url}}" id ='foo' onerror="standby()" style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail" >
+    {% else %}
+    <img scr = 'https://bayctron.com/_next/image?url=%2Fanimation%2Floading.gif&w=640&q=75'>
+    {% endif %}
     <h1 style="text-align: center;">{{form}}</h1>
     <h3 class=" text-center " style="margin: 10px;"> {{request.user }}</h3>
     <div class="dropdown">
