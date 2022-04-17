@@ -1,5 +1,5 @@
 """Import line."""
-from user.models import CustomUser
+from user.models import *
 from website.models import NFT
 from website.forms import *
 from django.shortcuts import render, redirect, get_object_or_404
