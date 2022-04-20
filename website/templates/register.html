@@ -14,7 +14,7 @@
                 {% for f in form %}
                 <div class="form-error"> {{f.errors}}</div>
                 <p><span for='{{f.id_for_label}}'> {{ f.label}} </span>{{f}}</p>
-                <div class="form-error"> {{f.errors}}</div>
+                
                 {% endfor %}
                 <input type="submit" value="Sign up" class="but">
             </div>

@@ -22,9 +22,10 @@
                 <div class="form-error"> {{f.errors}}</div>
                 <div class = 'form-error'>{{ form.non_field_errors }}</div>
                 {% for f in form %}
-                <p><span for='{{f.id_for_label}}'> {{ f.label}}   </span>{{f}}</p>
-                <div class="form-error"> {{f.errors}}</div>
+                <p><span for='{{f.id_for_label}}'> {{ f.label}}   </span><br>{{f}}</p>
+              
                 {% endfor %}
+                
                 <input type="submit"value="Sign up" class = "but">
             </div>
         </form>
