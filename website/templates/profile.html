@@ -54,24 +54,35 @@
     </div>
    
     {{form.as_p}}
-    <container style = 'background-color: #ccc; opacity: 1 '>
-        <div class="ps">
-            <p>Earned total</p>
-            <p>Spent total</p>
-            <p>Wins</p>
-            <p>Bots bought</p>
-            <p>NFTs bought</p>
-            <p>NFTs sold</p>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+        
+            <th scope="col">Earned total</th>
+            <th scope="col">Spent total</th>
+            <th scope="col">Wins</th>
+            <th scope="col">Bots bought</th>
+            <th scope="col">NFTs bought</th>
+            <th scope="col">NFTs sold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+       
+            <td>{{ Earned }} {{request.user.balance}}</td>
+            <td>{{ Spent }} {{request.user.balance}}</td>
+            <td>{{ Wins }} {{request.user.balance}}</td>
+            <td>{{ Bots }} {{request.user.balance}}</td>
+            <td>{{ NFTs_bought }} {{request.user.balance}}</td>
+            <td>{{ NFTs_sold }} {{request.user.balance}}</td>
         </div>
-        <div class="nums">
-            <p>{{ Earned }} {{request.user.balance}}</p>
-            <p>{{ Spent }} {{request.user.balance}}</p>
-            <p>{{ Wins }} {{request.user.balance}}</p>
-            <p>{{ Bots }} {{request.user.balance}}</p>
-            <p>{{ NFTs_bought }} {{request.user.balance}}</p>
-            <p>{{ NFTs_sold }} {{request.user.balance}}</p>
-        </div>
-    </container>
+          </tr>
+
+        </tbody>
+      </table>
+
 </div>
 
 {%include 'footer.html' %}
