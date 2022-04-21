@@ -8,6 +8,8 @@
 
 [languagetool](https://languagetool.org/ru)
 
+[docker](https://hub.docker.com/repository/docker/kosten19/colossus)
+
 ### _**HOW TO RUN PROJECT**_
 
 > python -m pip install --upgrade pip
@@ -21,6 +23,11 @@
 > python manage.py migrate
 
 > python manage.py runserver
+
+### _**HOW TO clone docker container**_
+
+> docker pull kosten19/colossus:latest
+
 
 ### _**HOW TO RUN CodeAutoFormater**_
 
