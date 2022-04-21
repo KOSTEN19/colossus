@@ -24,6 +24,11 @@
 
 > python manage.py runserver
 
+### _**HOW TO clone docker container**_
+
+> docker pull kosten19/colossus:latest
+
+
 ### _**HOW TO RUN CodeAutoFormater**_
 
 - _Windows:_
