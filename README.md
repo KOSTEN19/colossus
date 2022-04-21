@@ -8,6 +8,8 @@
 
 [languagetool](https://languagetool.org/ru)
 
+[docker](https://hub.docker.com/repository/docker/kosten19/colossus)
+
 ### _**HOW TO RUN PROJECT**_
 
 > python -m pip install --upgrade pip
