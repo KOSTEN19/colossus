@@ -8,6 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth.decorators import permission_required
 
 
 class DataMixin:
@@ -80,14 +81,14 @@ def login_page(request):
     context = {'page': 'create'}
     return render(request, 'login.html', context)
 
-
+@permission_required('auth.view_user')
 def data_post_id(request, post_id):
     """Function line."""
     query = get_object_or_404(NFT, id=post_id)
     context = {'form': query}
     return render(request, 'one_nft.html', context)
 
-
+@permission_required('auth.view_user')
 def profile_page(request):
     """Function line."""
     person = get_object_or_404(CustomUser, username=request.user)
@@ -100,13 +101,13 @@ def profile_page(request):
     context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)
 
-
+@permission_required('auth.view_user')
 def game_page(request):
     """Function line."""
     context = {'height': '40', 'page': 'game'}
     return render(request, 'game.html', context)
 
-
+@permission_required('auth.view_user')
 def inventory_page(request):
     """Function line."""
 
@@ -134,7 +135,7 @@ def inventory_page(request):
                 '-price')[::-1], 'page': 'inventory', 'height': '40'}
     return render(request, 'inventory.html', context)
 
-
+@permission_required('auth.view_user')
 def clicker_page(request):
     """Function line."""
 
@@ -146,6 +147,7 @@ def clicker_page(request):
     return render(request, 'clicker.html', context)
 
 
+@permission_required('auth.view_user')
 def market_page(request):
     """Function line."""
     context = {
@@ -174,7 +176,7 @@ def market_page(request):
             }
     return render(request, 'market.html', context)
 
-
+@permission_required('auth.view_user')
 def transaction(request):
     """Function line."""
     context = {}
@@ -220,7 +222,7 @@ def transaction(request):
                     'text': 'Not enought money or it is yours :('})
     return render(request, 'transaction.html', context)
 
-
+@permission_required('auth.view_user')
 def create_page(request):
     """Function line."""
     context = {

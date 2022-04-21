@@ -51,7 +51,9 @@
         {% endif %}
 
         {% else %}
+        {% if request.user.is_authenticated %}
         <a class="nav-link" href="/market/">TC market</a>
+        {% endif %}
         {% endif %}
       </nav>
 
