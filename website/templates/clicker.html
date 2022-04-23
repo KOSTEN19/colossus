@@ -1,8 +1,13 @@
 {% include  'header.html' %}
+<style>
+.click:active{
+    transform: scale(0.9);
+}
+</style>
 <main>
     <h2>Игра кликер</h2>
     <h3 id="level">Ваш уровень: 1</h3>
-    <img   value = '1' id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
+    <img  class ='click' value = '1' id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
 <form method="POST"  action='/clicker/'>
     {% csrf_token %}
     <input  readonly id ="score" name = 'balance' type = 'number' value = '0' onclick="resetB()">
