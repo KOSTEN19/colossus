@@ -1,19 +1,11 @@
 {% include  'header.html' %}
-
 <main>
     <h2>Игра кликер</h2>
-    
     <h3 id="level">Ваш уровень: 1</h3>
     <img   value = '1' id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
-
-
-
 <form method="POST"  action='/clicker/'>
     {% csrf_token %}
     <input  readonly id ="score" name = 'balance' type = 'number' value = '0' onclick="resetB()">
-    
-    
-
      <input type="submit" class="btn btn-primary" value="top up"  onclick="resetB()">
 </form>
     <div class="d-grid gap-2 col-6 mx-auto">
@@ -27,9 +19,7 @@
     <form name=MyForm>
       <input name="stopwatch" size="10" value="00:00:00.00" disabled>
     </form>
-   
   </main>
-
 {% include  'footer.html' %}
 <script>
 var score = 0;
