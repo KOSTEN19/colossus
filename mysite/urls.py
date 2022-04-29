@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('profile/', views.profile_page),
     path('inventory/', views.inventory_page, name='inventory'),
-
+    path('trade/', views.trade_page, name='trade'),
+    path('trades/', views.my_trades_page, name='trades'),
     path('data/<int:post_id>', views.data_post_id),
     path('', views.main_page, ),
     path('market/', views.market_page, name='market'),
@@ -32,7 +33,9 @@ urlpatterns = [
     path('registory/', views.RegUser.as_view()),
     path('login/', views.LoginUser.as_view(), name='login'),
     path('logout/', views.logout_user),
+    path('  ', views.transaction),
     path('transaction/', views.transaction),
-
     path('game/', views.game_page, name='game'),
 ] + static(settings.NFT_URL, document_root=settings.NFT_ROOT)
+
+    

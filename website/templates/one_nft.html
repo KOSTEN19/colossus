@@ -45,4 +45,8 @@
         </div>
     </div>
 </form>
+<form action="/trade/" method = 'POST'>
+    {% csrf_token %}
+    <button class="btn btn-primary it"  name="make" value = '{{form.id}}'  >Make trade  </button>
+</form>
 {% include 'footer.html' %}

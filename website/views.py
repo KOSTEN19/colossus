@@ -1,6 +1,7 @@
 """Import line."""
+from unicodedata import name
 from user.models import *
-from website.models import NFT
+from website.models import NFT, Trade
 from website.forms import *
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
@@ -176,11 +177,65 @@ def market_page(request):
                 'height': '40'
             }
     return render(request, 'market.html', context)
+@login_required
+def trade_page(request):
+    context = {}
+    if request.method == 'POST':
+        try:
+            make = request.POST.get('make')
+        except: pass
+    print(make)
+    if int(make):
+        query = get_object_or_404(NFT, id=make)
+        trade = Trade(id_nft=query.id, price_array  = query.price)
+        print(int(0.7*query.price),int(1.3*query.price))
+        context.update({
+         'page' :  'trades',
+        'nft_price_l' : int(0.7*query.price),
+        'nft_price_h' : int(1.3*query.price),
+        'nft_price' : int(query.price),
+        'nft_name' : str(query.name),
+        })
+        return render(request, 'make_trade.html', context)
+
+
+@login_required
+def my_trades_page(request):
+    context = {
+        'all_data': Trade.objects.filter(new_owner = str(request.user)) ,
+        'page' :  'trades',
+        'height': '40'
+    }
+    return render(request, 'my_trades.html', context)
+
 
 @login_required
 def transaction(request):
     """Function line."""
     context = {}
+    if request.method == 'POST':
+        if 1:
+            make = request.POST.get('name')
+            print(make)
+            query = get_object_or_404(NFT, name=str(make))
+            print(1)
+            text = request.POST.get('message')
+            print(2)
+            trade_price = request.POST.get('trade_price')
+            print(3)
+            trade = Trade(id_nft=query.id, price_array=trade_price, chat=text, owner = query.owner, new_owner=request.user)
+            print(4)
+            trade.save()
+            print(5)  
+            context.update({
+                    'text': 'transaction compleate!!!!'})  
+        #except: 
+       #     context.update({
+        #            'text': 'Error'})    
+        return render(request, 'transaction.html', context)
+
+
+
     if request.method == 'GET':
         buy = request.GET.get('buy_id')
         sell = request.GET.get('sell_id')

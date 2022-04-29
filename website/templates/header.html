@@ -56,7 +56,7 @@
         {% endif %}
         {% endif %}
       </nav>
-
+      
       <nav class="nav nav-masthead justify-content-center float-md-end">
         {% if not request.user.is_authenticated %}
         {% if page == "login" %}
@@ -84,12 +84,17 @@
         <a class="nav-link active" href="/clicker/">clicker</a>
         {% else %}
         <a class="nav-link " href="/clicker/">clicker</a>
-        {% endif %} 
+        {% endif %}
         {% if page == "game" %}
         <a class="nav-link active" href="/game/">game</a>
         {% else %}
         <a class="nav-link " href="/game/">game</a>
-        {% endif %} 
+        {% endif %}
+        {% if page == "trades" %}
+        <a class="nav-link active" href="/trades/">My trades</a>
+        {% else %}
+        <a class="nav-link" href="/trades/">My trades</a>
+        {% endif %}
         {% if page == "inventory" %}
         <a class="nav-link active" href="/inventory/">Inventory</a>
         {% else %}
