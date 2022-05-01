@@ -41,9 +41,11 @@ function teg() {
   //  document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
   }
   function resetB() {
-     
+    //new Audio('/static/coin.wav').play();
+    new Audio('/static/balance_up.wav').play(); 
   //  document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
     score = 0
+    
 }
 //+$
 function clickBtn() {
@@ -55,7 +57,7 @@ function clickBtn() {
    
     
     teg();
-    new Audio('img/jg-032316-sfx-elevator-button.mp3').play();
+    new Audio('/static/coin.wav').play();
     return false;
 }
 //Прокачка

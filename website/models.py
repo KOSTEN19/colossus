@@ -13,6 +13,7 @@ class NFT(models.Model):
     price = models.IntegerField()
     description = models.TextField()
     owner = models.TextField()
+    in_market = models.TextField()
 
 class Trade(models.Model):
     id_nft =  models.IntegerField()
@@ -20,7 +21,7 @@ class Trade(models.Model):
     chat  = models.TextField()
     owner = models.TextField()
     new_owner = models.TextField()
-    
+    time = models.TextField()
     #price_array = ArrayField(models.IntegerField())
     #chat = ArrayField(models.CharField(max_length=200), blank=True)
      

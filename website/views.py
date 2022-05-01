@@ -10,6 +10,7 @@ from django.contrib.auth import logout
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
+import time
 
 
 class DataMixin:
@@ -72,8 +73,12 @@ def main_page(request):
             image=nftimage,
             name=namenft,
             price=pricenft,
-            description=description)
+            description=description,
+            owner = request.user,
+            in_market= 'false')
+        print(request.user) 
         nft.save()
+        return redirect('/market/')
     return render(request, 'main.html', context)
 
 
@@ -113,7 +118,7 @@ def inventory_page(request):
     """Function line."""
 
     context = {
-        'all_data': NFT.objects.filter(owner=str(request.user)),
+        'all_data': NFT.objects.filter(owner=str(request.user), in_market='false'),
         'page': 'inventory',
         'height': '40'
     }
@@ -153,7 +158,8 @@ def clicker_page(request):
 def market_page(request):
     """Function line."""
     context = {
-        'all_data': NFT.objects.all().exclude(owner=str(request.user)),
+        'all_data': NFT.objects.filter(in_market= 'true'),
+        #.exclude(owner=str(request.user))
         'page': 'market',
         'height': '40'
     }
@@ -186,6 +192,7 @@ def trade_page(request):
         except: pass
     print(make)
     if int(make):
+        trade_time = time.time()
         query = get_object_or_404(NFT, id=make)
         trade = Trade(id_nft=query.id, price_array  = query.price)
         print(int(0.7*query.price),int(1.3*query.price))
@@ -195,6 +202,7 @@ def trade_page(request):
         'nft_price_h' : int(1.3*query.price),
         'nft_price' : int(query.price),
         'nft_name' : str(query.name),
+        'time' : str(trade_time),
         })
         return render(request, 'make_trade.html', context)
 
@@ -215,6 +223,9 @@ def transaction(request):
     context = {}
     if request.method == 'POST':
         if 1:
+            sec = time.time()
+            struct = time.localtime(sec)
+            trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
             make = request.POST.get('name')
             print(make)
             query = get_object_or_404(NFT, name=str(make))
@@ -223,16 +234,17 @@ def transaction(request):
             print(2)
             trade_price = request.POST.get('trade_price')
             print(3)
-            trade = Trade(id_nft=query.id, price_array=trade_price, chat=text, owner = query.owner, new_owner=request.user)
+            print(query.owner)
+            trade = Trade(id_nft=query.id, price_array=trade_price, chat=text, owner = str(query.owner), new_owner=str(request.user), time= trade_time )
             print(4)
             trade.save()
             print(5)  
             context.update({
-                    'text': 'transaction compleate!!!!'})  
+                    'text': 'operation compleate!!!!'})  
         #except: 
        #     context.update({
         #            'text': 'Error'})    
-        return render(request, 'transaction.html', context)
+        return render(request, 'operation.html', context)
 
 
 
@@ -247,12 +259,12 @@ def transaction(request):
         if sell  :
             ass = get_object_or_404(NFT, id=sell)
             if person.username == str(ass.owner):
-                ass.owner=''
+                ass.in_market='true'
+                print('TRUE')
                 ass.save()
-                person.balance+=int(ass.price)
-                person.save()
+                
                 context.update({
-                    'text': 'transaction compleate!!!!'})
+                    'text': 'operation compleate!!!!'})
             else:
                 context.update({
                     'text': 'Not enought money or it is yours :('})    
@@ -264,15 +276,20 @@ def transaction(request):
                 ass.price) and str(
                 person.username) != str(
                     ass.owner):
-                print(person.balance)
-                print(person.balance)
+                owner1 = get_object_or_404(CustomUser, username=ass.owner)    
+                #print(person.balance)
+                #print(person.balance)
+                owner1.balance+= int(ass.price)
+                owner1.save()
                 person.balance -= int(ass.price)
                 person.save()
+                ass.in_market='false'
+                
                 print(person.balance)
                 ass.owner = str(request.user)
                 ass.save()
                 context.update({
-                    'text': 'transaction compleate!!!!'})
+                    'text': 'operation compleate!!!!'})
             else:
                 context.update({
                     'text': 'Not enought money or it is yours :('})
