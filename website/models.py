@@ -1,7 +1,6 @@
 """Import line."""
 import chardet
 from django.contrib.postgres.fields import ArrayField
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -14,6 +13,8 @@ class NFT(models.Model):
     description = models.TextField()
     owner = models.TextField()
     in_market = models.TextField()
+    count =  models.IntegerField()
+    id_in_arr = models.IntegerField()
 
 class Trade(models.Model):
     id_nft =  models.IntegerField()

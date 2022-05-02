@@ -9,18 +9,24 @@
     flex-wrap: wrap;
     flex-direction: row;
   }
-
+  .pictur{
+    object-fit: contain;
+  max-height: 50%;
+  width: auto;
+  height: auto;
+}
   .card {
    
     margin: 20px;
   
-  }
+  } 
 </style>
 <main class="px-3">
   {% for item in all_data %}
   <div class="card" style="width:  350px;  height:450px; color: black">
-    <img src= '{{item.image.url}}'>
+    <img class = "pictur" src= '{{item.image.url}}' >
     <div class="card-body">
+      asdfermignetugurtn9
       <h5 class="card-title">{{item.name}}</h5>
       <p class="card-text">{{item.description|truncatechars_html:80}}</p>
       <p class="card-text">{{item.price}} $</p>
