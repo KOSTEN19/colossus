@@ -79,11 +79,11 @@ def main_page(request):
                 price=pricenft,
                 description=description,
                 owner = request.user,
-                id_in_arr =     i,
+                id_in_arr = i,
                 in_market= 'false',
                 count = int(count))
             nft.save()
-        return redirect('/market/')
+        return redirect('/inventory/')
     return render(request, 'main.html', context)
 
 
@@ -257,8 +257,34 @@ def transaction(request):
     if request.method == 'GET':
         buy = request.GET.get('buy_id')
         sell = request.GET.get('sell_id')
+        trade = request.GET.get('trade_id')
         person = get_object_or_404(CustomUser, username=request.user)
-        if sell  :
+
+        if trade:
+            t_ass = get_object_or_404(Trade, id=trade)
+            arr = []
+            new_owner_nft = get_object_or_404(CustomUser, username=t_ass.new_owner)
+            ass = get_object_or_404(NFT, id=t_ass.id_nft)
+
+            if  person.username == str(ass.owner):
+                
+                person.balance+=ass.price
+                new_owner_nft.balance-=ass.price
+                ass.in_market='false'
+                ass.owner=str(new_owner_nft.username)
+                person.save()
+                new_owner_nft.save()
+                ass.save()
+                print(ass.id)
+                arr = Trade.objects.filter(id_nft=int(ass.id))
+                print(2)
+                arr.delete()
+                #t_ass.delete()
+                print(1)
+               
+                context.update({
+                    'text': 'operation compleate!!!!'})
+        elif sell  :
             print(sell)
             ass = get_object_or_404(NFT, id=sell)
             if person.username == str(ass.owner):

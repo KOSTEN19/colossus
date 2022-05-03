@@ -33,7 +33,6 @@ urlpatterns = [
     path('registory/', views.RegUser.as_view()),
     path('login/', views.LoginUser.as_view(), name='login'),
     path('logout/', views.logout_user),
-    path('  ', views.transaction),
     path('transaction/', views.transaction),
     path('game/', views.game_page, name='game'),
 ] + static(settings.NFT_URL, document_root=settings.NFT_ROOT)

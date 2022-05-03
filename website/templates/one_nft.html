@@ -47,7 +47,7 @@
 </form>
 {% if form.owner == request.user.username %}
 <tr>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -65,6 +65,9 @@
             <td scope="row">{{item.chat}}</td>
             <td scope="row">{{item.new_owner}}</td>
             <td scope="row">{{item.time}}</td>
+            <form action='/transaction' method="GET">
+            <td scope="row"> <button class="btn btn-primary"  name="trade_id" value = '{{item.id}}'  >Make trade  </button></td>
+            </form>
           </tr>
           {% endfor %}
         </tbody>
