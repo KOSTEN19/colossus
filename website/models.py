@@ -17,6 +17,7 @@ class NFT(models.Model):
     id_in_arr = models.IntegerField()
 
 class Trade(models.Model):
+    action = models.TextField()
     id_nft =  models.IntegerField()
     price_array  = models.IntegerField()
     chat  = models.TextField()

@@ -81,6 +81,7 @@ def main_page(request):
                 owner = request.user,
                 id_in_arr = i,
                 in_market= 'false',
+                
                 count = int(count))
             nft.save()
         return redirect('/inventory/')
@@ -98,7 +99,7 @@ def data_post_id(request, post_id):
     query = get_object_or_404(NFT, id=post_id)
    
     context = {'form': query,
-     'all_data': Trade.objects.filter(id_nft=post_id),
+     'all_data': Trade.objects.filter(id_nft=post_id, action = 'buy'),
     }
     return render(request, 'one_nft.html', context)
 
@@ -212,6 +213,8 @@ def trade_page(request):
         'nft_price' : int(query.price),
         'nft_name' : str(query.name),
         'time' : str(trade_time),
+        'owner' : str(request.user),
+        'user' : str(request.user)
         })
         response = render(request, 'make_trade.html', context)
         response.set_cookie('nft_id', str(make))
@@ -233,7 +236,22 @@ def transaction(request):
     """Function line."""
     context = {}
     if request.method == 'POST':
-        if 1:
+        make = request.COOKIES.get('nft_id') 
+        query = get_object_or_404(NFT, id = int(make))
+        if str(request.user) == str(query.owner):
+            sec = time.time()
+            query.in_market='true'
+            query.save()
+            struct = time.localtime(sec)
+            trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
+            text = request.POST.get('message')
+            trade_price = request.POST.get('trade_price')
+            trade = Trade(action = 'sale' , id_nft=query.id, price_array=trade_price, chat='', owner = str(query.owner), new_owner=str(request.user), time= trade_time )
+            trade.save()
+            context.update({
+                    'text': 'operation compleate!!!!'})  
+
+        else:
             sec = time.time()
             struct = time.localtime(sec)
             trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
@@ -243,13 +261,10 @@ def transaction(request):
             query = get_object_or_404(NFT, id = int(make))
             text = request.POST.get('message')
             trade_price = request.POST.get('trade_price')
-            trade = Trade(id_nft=query.id, price_array=trade_price, chat=text, owner = str(query.owner), new_owner=str(request.user), time= trade_time )
+            trade = Trade(action = "buy", id_nft=query.id, price_array=trade_price, chat=text, owner = str(query.owner), new_owner=str(request.user), time= trade_time )
             trade.save()
             context.update({
                     'text': 'operation compleate!!!!'})  
-        #except: 
-       #     context.update({
-        #            'text': 'Error'})    
         return render(request, 'transaction.html', context)
 
 
@@ -268,8 +283,8 @@ def transaction(request):
 
             if  person.username == str(ass.owner):
                 
-                person.balance+=ass.price
-                new_owner_nft.balance-=ass.price
+                person.balance+=t_ass.price_array
+                new_owner_nft.balance-=t_ass.price_array
                 ass.in_market='false'
                 ass.owner=str(new_owner_nft.username)
                 person.save()
@@ -284,44 +299,44 @@ def transaction(request):
                
                 context.update({
                     'text': 'operation compleate!!!!'})
-        elif sell  :
-            print(sell)
-            ass = get_object_or_404(NFT, id=sell)
-            if person.username == str(ass.owner):
-                ass.in_market='true'
-                print('TRUE')
-                ass.save()
-                
-                context.update({
-                    'text': 'operation compleate!!!!'})
-            else:
-                context.update({
-                    'text': 'Not enought money or it is yours :('})    
-        elif buy :    
-            ass = get_object_or_404(NFT, id=int(buy))
-            print(ass)
-            if int(
-                person.balance) >= int(
-                ass.price) and str(
-                person.username) != str(
-                    ass.owner):
-                owner1 = get_object_or_404(CustomUser, username=ass.owner)    
-                arr = Trade.objects.filter(id_nft = ass.id)
-                arr.delete()
-                owner1.balance+= int(ass.price)
-                owner1.save()
-                person.balance -= int(ass.price)
-                person.save()
-                ass.in_market='false'
-                
-                print(person.balance)
-                ass.owner = str(request.user)
-                ass.save()
-                context.update({
-                    'text': 'operation compleate!!!!'})
-            else:
-                context.update({
-                    'text': 'Not enought money or it is yours :('})
+     #   elif sell  :
+      #      print(sell)
+       #     ass = get_object_or_404(NFT, id=sell)
+       #     if person.username == str(ass.owner):
+       #         ass.in_market='true'
+       #         print('TRUE')
+       #         ass.save()
+       #         
+       #         context.update({
+       #             'text': 'operation compleate!!!!'})
+       #     else:
+       #         context.update({
+       #             'text': 'Not enought money or it is yours :('})    
+       ## elif buy :    
+       #     ass = get_object_or_404(NFT, id=int(buy))
+       #     print(ass)
+       #     if int(
+       #         person.balance) >= int(
+       #         ass.price) and str(
+       #         person.username) != str(
+       #             ass.owner):
+       #         owner1 = get_object_or_404(CustomUser, username=ass.owner)    
+       #         arr = Trade.objects.filter(id_nft = ass.id)
+       #         arr.delete()
+       #         owner1.balance+= int(ass.price)
+       #         owner1.save()
+       #         person.balance -= int(ass.price)
+       #         person.save()
+       #         ass.in_market='false'
+       #         
+      # 3         print(person.balance)
+      # 3         ass.owner = str(request.user)
+       #         ass.save()
+       #         context.update({
+       #             'text': 'operation compleate!!!!'})
+       #     else:
+       #         context.update({
+        #            'text': 'Not enought money or it is yours :('})
     return render(request, 'transaction.html', context)
 
 @login_required

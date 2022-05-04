@@ -31,17 +31,14 @@
         margin: 30px;
     }
 </style>
-<form action='/transaction' method="GET">
+<form action="/trade/" method = 'POST'>
     <div class="block">
         <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
         <div class="txt">
             <h1  class = 'it'> Name : {{form.name}}</h1>
             <h5 class = "description it">{{form.description}}</h5>
-            {% if form.owner == request.user.username %}
-            <button class="btn btn-primary it"  name="sell_id" value = '{{form.id}}'  >Sell for {{form.price}} tc  </button>
-            {% else %}
-            <button class="btn btn-primary it"  name="buy_id" value = '{{form.id}}'  >Buy for {{form.price}} tc  </button>
-            {% endif %}
+            {% csrf_token %}
+            <button class="btn btn-primary it"  name="make" value = '{{form.id}}'  >Make trade </button>
         </div>
     </div>
 </form>
@@ -73,8 +70,5 @@
         </tbody>
       </table>
 {% endif %}
-<form action="/trade/" method = 'POST'>
-    {% csrf_token %}
-    <button class="btn btn-primary it"  name="make" value = '{{form.id}}'  >Make trade  </button>
-</form>
+
 {% include 'footer.html' %}

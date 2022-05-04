@@ -15,10 +15,14 @@
   width: auto;
   height: auto;
 }
-  .card {
-   
+.card {
+    transition: all 0.05s ease-out;
     margin: 20px;
   
+  } 
+
+  .card:hover{
+    scale: 1.04;
   }
 </style>
 <main class="px-3">
@@ -30,6 +34,7 @@
       {% endif %}
     <img class = 'pictur' src= '{{item.image.url}}'>
     <div class="card-body">
+      <h1>#{{item.id}}</h1>
       <h5 class="card-title">{{item.name}}</h5>
       <p class="card-text">{{item.description|truncatechars_html:80}}</p>
       <p class="card-text">{{item.price}} $</p>
