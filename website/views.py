@@ -11,6 +11,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse 
+from PIL import Image, ImageChops
+import numpy as np
 import time
 
 
@@ -61,30 +63,64 @@ def logout_user(request):
 
 # Create your views here.
 
+def calcdiff(im1, im2):
+    dif = ImageChops.difference(im1, im2)
+    return np.mean(np.array(dif))
+
+def calcdiff(im1, im2):
+    dif = ImageChops.difference(im1, im2)
+    return np.mean(np.array(dif))
+
 
 def main_page(request):
     """Function line."""
     context = {'page': 'main'}
+    
+
+        
     if request.method == 'POST':
         namenft = request.POST.get('name')
         pricenft = request.POST.get('price')
         nftimage = request.FILES.get('myfile')
         description = request.POST.get('description')
         count = request.POST.get('count')
-        for i in  range(abs(int(count))):
+        try:
+            Image.open(nftimage)
+        except:  return redirect('/create/') 
+        data = NFT.objects.all()        
+        unique = True
+        if len(data)>0:
+            for i in data:
+                im1 = Image.open(nftimage) 
+                im2 = Image.open(i.image)
+                raz = calcdiff(im1,im2)
+                if raz <15:
+                    unique=False
+                    print(raz, unique)
+        if unique:
+            for i in  range(abs(int(count))):
+                try:
+                    nft = NFT(
+                        image=nftimage,
+                        name=namenft,
+                        price=abs(int(pricenft)),
+                        description=description,
+                        owner = request.user,
+                        id_in_arr = i,
+                        in_market= 'false',
+                            
+                        count = int(count))
+                    nft.save()
+                except:
+                    return redirect('/create/')
+        
 
-            nft = NFT(
-                image=nftimage,
-                name=namenft,
-                price=pricenft,
-                description=description,
-                owner = request.user,
-                id_in_arr = i,
-                in_market= 'false',
-                
-                count = int(count))
-            nft.save()
-        return redirect('/inventory/')
+        if unique:    
+             return redirect('/inventory/')   
+        else:     
+            print('here')
+            return redirect('/create/') 
+    print('BAN')
     return render(request, 'main.html', context)
 
 
@@ -203,7 +239,9 @@ def trade_page(request):
     if int(make):
         trade_time = time.time()
         query = get_object_or_404(NFT, id=make)
-       
+ 
+
+
         trade = Trade(id_nft=query.id, price_array  = query.price)
         print(int(0.7*query.price),int(1.3*query.price))
         context.update({
@@ -213,7 +251,7 @@ def trade_page(request):
         'nft_price' : int(query.price),
         'nft_name' : str(query.name),
         'time' : str(trade_time),
-        'owner' : str(request.user),
+        'owner' : str(query.owner),
         'user' : str(request.user)
         })
         response = render(request, 'make_trade.html', context)

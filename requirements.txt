@@ -1,3 +1,5 @@
 Django
 Django-admin
 Pillow
+chardet
+psycopg2
