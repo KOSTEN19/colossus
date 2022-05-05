@@ -4,6 +4,7 @@
 # project
 /bootstrap-5.1.3-examples/*
 /.idea/
+/static/nft/nft_pack/*
 ### Linux ###
 *~
 
