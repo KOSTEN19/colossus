@@ -14,21 +14,39 @@
      <input type="submit" class="btn btn-primary" value="top up"  onclick="resetB()">
 </form>
     <div class="d-grid gap-2 col-6 mx-auto">
-    <input class="btn btn-primary" type="button"  value="Прокачать на 1 уровень|-100$" onclick="update()">
-    <input class="btn btn-primary" type="button" type="button" value="Прокачать на 2 уровня|-150$" onclick="update1()">
-    <input class="btn btn-primary" type="button" type="button" value="Прокачать на 3 уровня|-250$" onclick="update2()">
-    <input class="btn btn-primary" type="button" type="button" value="Прокачать на 10 уровней|-500$" onclick="update3()">
-    <input class="btn btn-primary" type="button" value="Автокликер|-10000$" onclick="auto()">
-    <input class="btn btn-primary" type="button" value="Прокачаться на свой уровень" onclick="dialog()">
+    <input class = "gradient-button" type="button" id="1"  value="Прокачать на 1 уровень|-100$" onclick="update()">
+    <input class = "gradient-button" type="button" id="2" type="button" value="Прокачать на 2 уровня|-150$" onclick="update1()">
+    <input class = "gradient-button" type="button" id="3" type="button" value="Прокачать на 3 уровня|-250$" onclick="update2()">
+    <input class = "gradient-button" type="button" id="4" type="button" value="Прокачать на 10 уровней|-500$" onclick="update3()">
+    <input class = "gradient-button" type="button" id="5" value="Автокликер|-10000$" onclick="auto()">
+
     </div>
     <form name=MyForm>
       <input name="stopwatch" size="10" value="00:00:00.00" disabled>
     </form>
   </main>
 {% include  'footer.html' %}
+<style>
+    .gradient-button {
+      text-decoration: none;
+      display: inline-block;
+      color: white;
+      padding: 10px ;
+      margin: 10px ;
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+      background-size: 200% auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+      transition: .5s;
+}
+</style>
 <script>
 var score = 0;
 var t = 0;
+
 var updating = 1;
 var minus = 0;
 score = +localStorage.getItem('score');
@@ -62,54 +80,74 @@ function clickBtn() {
 }
 //Прокачка
 function update() {
-    score = score - 100 - 100*0.25*t;
+    score = score - 100 - Math.round(100*0.25*t);
     if (score > 0) {
         t+=1;
         updating += 1;
         teg();
+        document.getElementById('1').value = 'Прокачать на 1 уровня|'+ Math.round(100 + 100*0.25*t)+"$";
+        document.getElementById('2').value = 'Прокачать на 2 уровня|'+ Math.round(150 + 150*0.25*t)+"$";
+        document.getElementById('3').value = 'Прокачать на 3 уровня|'+ Math.round(250 + 250*0.25*t)+"$";
+        document.getElementById('4').value = 'Прокачать на 10 уровня|'+ Math.round(500 + 500*0.25*t)+"$";
+        document.getElementById('5').value = 'Прокачать на Автокликер уровня|'+ (10000+ 10000*t)+"$";
         level();
     } else {
         if1();
-        score = score + 100 + 100*0.25*t;
+        score = score + 100 + Math.round(100*0.25*t);
     }
 }
 
 function update1() {
-    score = score - 150 - 150*0.25*t;
+    score = score - 150 - Math.round(150*0.25*t);
     if (score > 0) {
         t+=2;
         updating += 2;
+        document.getElementById('1').value = 'Прокачать на 1 уровня|'+ Math.round(100 + 100*0.25*t)+"$";
+        document.getElementById('2').value = 'Прокачать на 2 уровня|'+ Math.round(150 + 150*0.25*t)+"$";
+        document.getElementById('3').value = 'Прокачать на 3 уровня|'+ Math.round(250 + 250*0.25*t)+"$";
+        document.getElementById('4').value = 'Прокачать на 10 уровня|'+ Math.round(500 + 500*0.25*t)+"$";
+        document.getElementById('5').value = 'Прокачать на Автокликер уровня|'+ (10000+ 10000*t)+"$";
         teg();
         level();
     } else {
-        score = score + 150 + 150*0.25*t;
+        score = score + 150 + Math.round(150*0.25*t);
         if1();
     }
 }
 
 function update2() {
-    score = score - 250- 250*0.25*t;
+    score = score - 250- Math.round(250*0.25*t);
     if (score > 0) {
         t+=3;
         updating += 3;
+        document.getElementById('1').value = 'Прокачать на 1 уровня|'+ Math.round(100 + 100*0.25*t)+"$";
+        document.getElementById('2').value = 'Прокачать на 2 уровня|'+ Math.round(150 + 150*0.25*t)+"$";
+        document.getElementById('3').value = 'Прокачать на 3 уровня|'+ Math.round(250 + 250*0.25*t)+"$";
+        document.getElementById('4').value = 'Прокачать на 10 уровня|'+ Math.round(500 + 500*0.25*t)+"$";
+        document.getElementById('5').value = 'Прокачать на Автокликер уровня|'+ (10000+ 10000*t)+"$";
         teg();
         level();
     } else {
         if1();
-        score = score + 250+ 250*0.25*t;
+        score = score + 250+ Math.round(250*0.25*t);
     }
 }
 
 function update3() {
-    score = score - 500- 500*0.25*t;
+    score = score - 500- Math.round(500*0.25*t);
     if (score > 0) {
         t+=10;
         updating += 10;
+        document.getElementById('1').value = 'Прокачать на 1 уровня|'+ Math.round(100 + 100*0.25*t)+"$";
+        document.getElementById('2').value = 'Прокачать на 2 уровня|'+ Math.round(150 + 150*0.25*t)+"$";
+        document.getElementById('3').value = 'Прокачать на 3 уровня|'+ Math.round(250 + 250*0.25*t)+"$";
+        document.getElementById('4').value = 'Прокачать на 10 уровня|'+ Math.round(500 + 500*0.25*t)+"$";
+        document.getElementById('5').value = 'Прокачать на Автокликер уровня|'+ (10000+ 10000*t)+"$";
         teg();
         level();
     } else {
         if1();
-        score = score + 500 + 500*0.25*t;
+        score = score + 500 + Math.round(500*0.25*t);
     }
 }
 
@@ -122,6 +160,11 @@ function auto() {
     if (score > 0) {
         teg();
         if1();
+        document.getElementById('1').value = 'Прокачать на 1 уровня|'+ Math.round(100 + 100*0.25*t);
+        document.getElementById('2').value = 'Прокачать на 2 уровня|'+ Math.round(150 + 150*0.25*t);
+        document.getElementById('3').value = 'Прокачать на 3 уровня|'+ Math.round(250 + 250*0.25*t);
+        document.getElementById('4').value = 'Прокачать на 10 уровня|'+ Math.round(500 + 500*0.25*t);
+        document.getElementById('5').value = 'Прокачать на Автокликер уровня|'+ (10000+ 10000*t);
         setTimeout("plusauto()", 1000);
     } else {
         score = score + 10000+ 10000*t;
