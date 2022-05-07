@@ -1,6 +1,7 @@
 """Import line."""
 from unicodedata import name
 from user.models import *
+from django.contrib import messages
 from website.models import NFT, Trade
 from website.forms import *
 from django.shortcuts import render, redirect, get_object_or_404
@@ -98,6 +99,7 @@ def main_page(request):
                     unique=False
                     print(raz, unique)
         if unique:
+           
             for i in  range(abs(int(count))):
                 try:
                     nft = NFT(
@@ -118,6 +120,7 @@ def main_page(request):
         if unique:    
              return redirect('/inventory/')   
         else:     
+            messages.error(request,'NFT is not unique!!!')
             print('here')
             return redirect('/create/') 
     print('BAN')
@@ -192,10 +195,12 @@ def clicker_page(request):
     """Function line."""
 
     if request.method == 'POST':
+        
         player = get_object_or_404(CustomUser, username=request.user)
         player.balance += min(100000, abs(int((request.POST.get('balance')))))
         player.save()
     context = {'page': 'clicker'}
+    
     return render(request, 'clicker.html', context)
 
 

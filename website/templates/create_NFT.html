@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>Document</title>
-   </head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=\, initial-scale=1.0">
+  <title>Document</title>
+</head>
 {% include 'style/login_register_style.html' %}
 {% include 'style/cover.html' %}
 <style>
-
-  p, h2{
-    margin : 50px;
+  p,
+  h2 {
+    margin: 50px;
   }
 </style>
 {% include 'style/bootstrap.min.html' %}
+
 <body id="element">
-  <div class="wrapper fadeInDown" >
+  <div class="wrapper fadeInDown">
     <form method="POST" enctype="multipart/form-data" action='/'>
       {% csrf_token %}
-      <div id="formContent" >
+      <div id="formContent">
         <h2 class="active"> Create Trade </h2>
-        <p><span for='id_username'> Name  </span>
-        <input type="text" class="form-control" name="name"  placeholder="" aria-label="First name"
-          style='margin: 10px;' required>
-          </p>
-          <p><span for='id_username'> Description  </span>
+        <p><span for='id_username'> Name </span>
+          <input type="text" class="form-control" name="name" placeholder="" aria-label="First name"
+            style='margin: 10px;' required>
+        </p>
+        <p><span for='id_username'> Description </span>
           <input type="text" class="form-control" name="description" placeholder="" aria-label="description"
-          style='margin: 10px;' required></p>
-          <p><span for='id_username'> Price<br>  </span>
-            <input type="number" class="form-control" name="price" placeholder="Price" aria-label="Price" min="1"
-            style='margin: 10px;' required >
-            <p><span for='id_username'> Number of NFTS<br>  </span>
-              <input type="number" class="form-control" name="count" placeholder="Price" aria-label="Price" min="1"
-              style='margin: 10px;' required >  
-  
-          <p><span for='id_username'> File:   </span>
-      <label for="formFile" class="form-label"></label>
-      <input class="form-control" type="file"  accept="image/png, image/gif, image/jpeg"  name="myfile" required>
-     </p>
-      <div class="col" style='margin: 10px;'>
-        <input type="submit" class="btn but btn-secondary" name="submit" value='Upload' /><br />
+            style='margin: 10px;' required>
+        </p>
+        <p><span for='id_username'> Price<br> </span>
+          <input type="number" class="form-control" name="price" placeholder="Price" aria-label="Price" min="1"
+            style='margin: 10px;' required>
+        <p><span for='id_username'> Number of NFTS<br> </span>
+          <input type="number" class="form-control" name="count" placeholder="Price" aria-label="Price" min="1"
+            style='margin: 10px;' required>
+
+        <p><span for='id_username'> File: </span>
+          <label for="formFile" class="form-label"></label>
+          <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" name="myfile" required>
+        </p>
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+          {% for message in messages %}
+          <h3>{{message}}</h3>
+
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="col" style='margin: 10px;'>
+          <input type="submit" class="btn but btn-secondary" name="submit" value='Upload' /><br />
+        </div>
+
       </div>
- 
-    </div>
     </form>
   </div>
-</div>
-{% include 'footer.html' %}
+  </div>
+  {% include 'footer.html' %}
