@@ -3,3 +3,4 @@ Django-admin
 Pillow
 chardet
 psycopg2
+numpy
