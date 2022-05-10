@@ -2,5 +2,5 @@ Django
 Django-admin
 Pillow
 chardet
-psycopg2
+psycopg2-binary
 numpy
