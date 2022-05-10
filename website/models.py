@@ -1,15 +1,10 @@
 """Import line."""
-import chardet
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_image_file_extension
-from PIL import Image
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 class NFT(models.Model):
-    """Class line."""
+    """Class line"""
     objects = models.Manager()
-    
     image = models.ImageField(null=True, upload_to='static/nft/nft_pack/')
     name = models.TextField()
     price = models.IntegerField()
@@ -19,7 +14,9 @@ class NFT(models.Model):
     count =  models.IntegerField()
     id_in_arr = models.IntegerField()
 
+
 class Trade(models.Model):
+    """Class line"""
     action = models.TextField()
     id_nft =  models.IntegerField()
     price_array  = models.IntegerField()
@@ -27,8 +24,9 @@ class Trade(models.Model):
     owner = models.TextField()
     new_owner = models.TextField()
     time = models.TextField()
-class NFTPACK (models.Model):
+
+
+class NFTPACK(models.Model):
+    """Class line"""
     name = models.TextField()
     price_array = ArrayField(models.IntegerField())
-    #chat = ArrayField(models.CharField(max_length=200), blank=True)
-     
