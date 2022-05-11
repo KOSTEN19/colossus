@@ -76,16 +76,22 @@ def main_page(request):
         nftimage = request.FILES.get('myfile')
         description = request.POST.get('description')
         count = request.POST.get('count')
+        print('---')
         try:
+            print('---')
             Image.open(nftimage)
+            print(Image.open(nftimage).verify())
+           
         except:
             return redirect('/create/')
+        
+
         data = NFT.objects.all()
         unique = True
         if len(data)>0:
             for i in data:
-                im1 = Image.open(nftimage)
-                im2 = Image.open(i.image)
+                im1 = Image.open(nftimage).convert('RGB')
+                im2 = Image.open(i.image).convert('RGB')
                 raz = calcdiff(im1,im2)
                 if raz < 15:
                     unique = False
