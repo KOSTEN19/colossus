@@ -104,6 +104,7 @@ def main_page(request):
                         description=description,
                         owner=request.user,
                         id_in_arr=i,
+                        author = request.user,
                         in_market='false',
                         count=int(count))
                     nft.save()
@@ -287,6 +288,7 @@ def transaction(request):
                 id_nft=query.id,
                 price_array=trade_price,
                 chat='',
+                stock_price = query.price,
                 owner=str(
                     query.owner),
                 new_owner=str(

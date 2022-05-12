@@ -9,6 +9,7 @@ class NFT(models.Model):
     image = models.ImageField(null=True, upload_to='static/nft/nft_pack/')
     name = models.TextField()
     price = models.IntegerField()
+    author = models.TextField()
     description = models.TextField()
     owner = models.TextField()
     in_market = models.TextField()
@@ -20,6 +21,7 @@ class Trade(models.Model):
     """Class line."""
     action = models.TextField()
     id_nft = models.IntegerField()
+    stock_price = models.IntegerField()
     price_array = models.IntegerField()
     chat = models.TextField()
     owner = models.TextField()

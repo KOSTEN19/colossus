@@ -2,6 +2,8 @@
 </div>
 </body>
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Macondo&family=Poppins:wght@300&display=swap');
   .px-3 {
     display: flex;
     align-items: flex-start;
@@ -10,32 +12,67 @@
     flex-direction: row;
   }
   .pictur{
-
+    border-radius: 20px  20px 0 0;
+    border-bottom: 0;
   object-fit: contain;
-  max-height: 50%;
-  width: auto;
-  height: auto;
+  max-height: 80%;
+  width: 100%;
+
+}
+.card-body1{
+  font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+flex-direction: row;
+
+}
+.left {
+
+width: 70%;
+height: 100%;
+
+}
+.right {
+
+  width: 30%;
+height: 100%;
 }
 .card {
-  
+  border-radius: 20px;
+  border: 0;
   transition: all 0.05s ;
     margin: 20px;
   
   } 
+  .desc{
+    font-size: 11px;
+  }
 .card:hover{
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
     scale: 1.04;
   }
 </style>
 <main class="px-3">
   {% for item in all_data %}
-  <div class="card" style="width:  350px;  height:450px; color: black">
+  <div class="card" style="width:  315px;  height:400px; color: black">
     <img class = "pictur" src= '{{item.image.url}}' >
-    <div class="card-body">
-      <h1>#{{item.id}}</h1>
+    <div class="card-body1">
+      <!--<h1>#{{item.id}}</h1>
       <h5 class="card-title">{{item.name}}</h5>
       <p class="card-text">{{item.description|truncatechars_html:80}}</p>
       <p class="card-text">{{item.price}} $</p>
-      <a href="/data/{{item.id}}" class="btn btn-primary">View more</a>
+      <a href="/data/{{item.id}}" class="btn btn-primary">View more</a>!-->
+      <div class = 'left'>
+        <span style =" color: rgba(0,0,0,0.5);">{{item.author}}<br></span>
+        <span style = "font-weight: 900;">{{item.name}} # {{item.id}} <br></span>
+        <span class = 'desc'>{{item.description|truncatechars_html:60}}</span>
+      </div>
+      <div class="right">
+        <span>Price<br></span>
+        <span>{{item.price}}</span>
+        <span>{{item.stock_price}}</span>
+
+      </div>
     </div>
   </div>
   {% endfor %}
