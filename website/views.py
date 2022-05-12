@@ -14,7 +14,6 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 
-
 class DataMixin:
     """Class line."""
 
@@ -81,40 +80,39 @@ def main_page(request):
             print('---')
             Image.open(nftimage)
             print(Image.open(nftimage).verify())
-           
-        except:
+
+        except BaseException:
             return redirect('/create/')
-        
 
         data = NFT.objects.all()
         unique = True
-        if len(data)>0:
+        if len(data) > 0:
             for i in data:
                 im1 = Image.open(nftimage).convert('RGB')
                 im2 = Image.open(i.image).convert('RGB')
-                raz = calcdiff(im1,im2)
+                raz = calcdiff(im1, im2)
                 if raz < 15:
                     unique = False
                     print(raz, unique)
         if unique:
-            for i in  range(abs(int(count))):
+            for i in range(abs(int(count))):
                 try:
                     nft = NFT(
                         image=nftimage,
                         name=namenft,
                         price=abs(int(pricenft)),
                         description=description,
-                        owner = request.user,
-                        id_in_arr = i,
-                        in_market= 'false',
-                        count = int(count))
+                        owner=request.user,
+                        id_in_arr=i,
+                        in_market='false',
+                        count=int(count))
                     nft.save()
-                except:
+                except BaseException:
                     return redirect('/create/')
         if unique:
             return redirect('/inventory/')
         else:
-            messages.error(request,'NFT is not unique!!!')
+            messages.error(request, 'NFT is not unique!!!')
             print('here')
             return redirect('/create/')
     print('BAN')
@@ -126,14 +124,16 @@ def login_page(request):
     context = {'page': 'create'}
     return render(request, 'login.html', context)
 
+
 @login_required
 def data_post_id(request, post_id):
     """Function line."""
     query = get_object_or_404(NFT, id=post_id)
     context = {'form': query,
-     'all_data': Trade.objects.filter(id_nft=post_id, action = 'buy'),
-    }
+               'all_data': Trade.objects.filter(id_nft=post_id, action='buy'),
+               }
     return render(request, 'one_nft.html', context)
+
 
 @login_required
 def profile_page(request):
@@ -148,11 +148,13 @@ def profile_page(request):
     context = {'page': 'profile', 'height': '20', 'form': person}
     return render(request, 'profile.html', context)
 
+
 @login_required
 def game_page(request):
     """Function line."""
     context = {'height': '40', 'page': 'game'}
     return render(request, 'game.html', context)
+
 
 @login_required
 def inventory_page(request):
@@ -198,8 +200,8 @@ def clicker_page(request):
 def market_page(request):
     """Function line."""
     context = {
-        'all_data': NFT.objects.filter(in_market= 'true'),
-        #.exclude(owner=str(request.user))
+        'all_data': NFT.objects.filter(in_market='true'),
+        # .exclude(owner=str(request.user))
         'page': 'market',
         'height': '40'
     }
@@ -223,6 +225,8 @@ def market_page(request):
                 'height': '40'
             }
     return render(request, 'market.html', context)
+
+
 @login_required
 def trade_page(request):
     """Function line."""
@@ -230,22 +234,22 @@ def trade_page(request):
     if request.method == 'POST':
         try:
             make = request.POST.get('make')
-        except:
+        except BaseException:
             pass
     print(make)
     if int(make):
         trade_time = time.time()
         query = get_object_or_404(NFT, id=make)
-        print(int(0.7*query.price),int(1.3*query.price))
+        print(int(0.7 * query.price), int(1.3 * query.price))
         context.update({
-        'page' :  'trades',
-        'nft_price_l' : int(0.7*query.price),
-        'nft_price_h' : int(1.3*query.price),
-        'nft_price' : int(query.price),
-        'nft_name' : str(query.name),
-        'time' : str(trade_time),
-        'owner' : str(query.owner),
-        'user' : str(request.user)
+            'page': 'trades',
+            'nft_price_l': int(0.7 * query.price),
+            'nft_price_h': int(1.3 * query.price),
+            'nft_price': int(query.price),
+            'nft_name': str(query.name),
+            'time': str(trade_time),
+            'owner': str(query.owner),
+            'user': str(request.user)
         })
         response = render(request, 'make_trade.html', context)
         request.session['nft_id'] = str(make)
@@ -256,8 +260,8 @@ def trade_page(request):
 def my_trades_page(request):
     """Function line."""
     context = {
-        'all_data': Trade.objects.filter(new_owner = str(request.user)) ,
-        'page' :  'trades',
+        'all_data': Trade.objects.filter(new_owner=str(request.user)),
+        'page': 'trades',
         'height': '40'
     }
     return render(request, 'my_trades.html', context)
@@ -269,26 +273,44 @@ def transaction(request):
     context = {}
     make = request.session.get('nft_id')
     if request.method == 'POST':
-        query = get_object_or_404(NFT, id = int(make))
+        query = get_object_or_404(NFT, id=int(make))
         if str(request.user) == str(query.owner):
             sec = time.time()
-            query.in_market='true'
+            query.in_market = 'true'
             query.save()
             struct = time.localtime(sec)
             trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
             text = request.POST.get('message')
             trade_price = request.POST.get('trade_price')
-            trade = Trade(action = 'sale' , id_nft=query.id, price_array=trade_price, chat='', owner = str(query.owner), new_owner=str(request.user), time= trade_time)
+            trade = Trade(
+                action='sale',
+                id_nft=query.id,
+                price_array=trade_price,
+                chat='',
+                owner=str(
+                    query.owner),
+                new_owner=str(
+                    request.user),
+                time=trade_time)
             trade.save()
             context.update({'text': 'operation compleate!!!!'})
         else:
             sec = time.time()
             struct = time.localtime(sec)
             trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
-            query = get_object_or_404(NFT, id = int(make))
+            query = get_object_or_404(NFT, id=int(make))
             text = request.POST.get('message')
             trade_price = request.POST.get('trade_price')
-            trade = Trade(action = "buy", id_nft=query.id, price_array=trade_price, chat=text, owner = str(query.owner), new_owner=str(request.user), time= trade_time )
+            trade = Trade(
+                action='buy',
+                id_nft=query.id,
+                price_array=trade_price,
+                chat=text,
+                owner=str(
+                    query.owner),
+                new_owner=str(
+                    request.user),
+                time=trade_time)
             trade.save()
             context.update({'text': 'operation compleate!!!!'})
         return render(request, 'transaction.html', context)
@@ -298,13 +320,14 @@ def transaction(request):
         if trade:
             t_ass = get_object_or_404(Trade, id=trade)
             arr = []
-            new_owner_nft = get_object_or_404(CustomUser, username=t_ass.new_owner)
+            new_owner_nft = get_object_or_404(
+                CustomUser, username=t_ass.new_owner)
             ass = get_object_or_404(NFT, id=t_ass.id_nft)
-            if  person.username == str(ass.owner):
-                person.balance+=t_ass.price_array
-                new_owner_nft.balance-=t_ass.price_array
-                ass.in_market='false'
-                ass.owner=str(new_owner_nft.username)
+            if person.username == str(ass.owner):
+                person.balance += t_ass.price_array
+                new_owner_nft.balance -= t_ass.price_array
+                ass.in_market = 'false'
+                ass.owner = str(new_owner_nft.username)
                 person.save()
                 new_owner_nft.save()
                 ass.save()
@@ -312,11 +335,12 @@ def transaction(request):
                 arr = Trade.objects.filter(id_nft=int(ass.id))
                 print(2)
                 arr.delete()
-                #t_ass.delete()
+                # t_ass.delete()
                 print(1)
                 context.update({
                     'text': 'operation compleate!!!!'})
     return render(request, 'transaction.html', context)
+
 
 @login_required
 def create_page(request):

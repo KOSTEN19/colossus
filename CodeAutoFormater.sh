@@ -70,4 +70,3 @@ docformatter --in-place ./mysite/wsgi.py
 echo "[+] docformatter done !"
 
 echo "[+++] ALL DONE !"
-
