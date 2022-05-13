@@ -2,7 +2,7 @@
 import time
 import numpy as np
 from PIL import Image, ImageChops
-from website.models import NFT, Trade
+from website.models import NFT, Trade_sell, Trade_buy
 from website.forms import CustomUserCreationForm, CustomUser
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,7 +16,6 @@ from django.views.generic import CreateView
 
 class DataMixin:
     """Class line."""
-
     def __init__(self):
         """Function line."""
         self.context = 0
@@ -75,15 +74,12 @@ def main_page(request):
         nftimage = request.FILES.get('myfile')
         description = request.POST.get('description')
         count = request.POST.get('count')
-        print('---')
+
         try:
-            print('---')
             Image.open(nftimage)
-            print(Image.open(nftimage).verify())
-
-        except BaseException:
+        except :
             return redirect('/create/')
-
+        print('make')
         data = NFT.objects.all()
         unique = True
         if len(data) > 0:
@@ -95,6 +91,7 @@ def main_page(request):
                     unique = False
                     print(raz, unique)
         if unique:
+            print('unique')
             for i in range(abs(int(count))):
                 try:
                     nft = NFT(
@@ -104,9 +101,10 @@ def main_page(request):
                         description=description,
                         owner=request.user,
                         id_in_arr=i,
-                        author = request.user,
-                        in_market='false',
+                        in_market = False,
+                        author = str(request.user),
                         count=int(count))
+    
                     nft.save()
                 except BaseException:
                     return redirect('/create/')
@@ -116,7 +114,7 @@ def main_page(request):
             messages.error(request, 'NFT is not unique!!!')
             print('here')
             return redirect('/create/')
-    print('BAN')
+    else:print('BAN')
     return render(request, 'main.html', context)
 
 
@@ -131,7 +129,7 @@ def data_post_id(request, post_id):
     """Function line."""
     query = get_object_or_404(NFT, id=post_id)
     context = {'form': query,
-               'all_data': Trade.objects.filter(id_nft=post_id, action='buy'),
+               'all_data': Trade_buy.objects.filter(id_nft=post_id),
                }
     return render(request, 'one_nft.html', context)
 
@@ -160,19 +158,16 @@ def game_page(request):
 @login_required
 def inventory_page(request):
     """Function line."""
-
     context = {
         'all_data': NFT.objects.filter(owner=str(request.user)),
         'page': 'inventory',
         'height': '40'
     }
     if request.method == 'GET':
-
         try:
             sort = request.GET['sort']
-        except BaseException:
+        except:
             sort = ''
-
         if sort == 'name':
             context = {
                 'all_data': NFT.objects.filter(
@@ -201,11 +196,12 @@ def clicker_page(request):
 def market_page(request):
     """Function line."""
     context = {
-        'all_data': NFT.objects.filter(in_market='true'),
+        'all_data': Trade_sell.objects.all(),
         # .exclude(owner=str(request.user))
         'page': 'market',
         'height': '40'
     }
+
     if request.method == 'GET':
 
         try:
@@ -235,23 +231,34 @@ def trade_page(request):
     if request.method == 'POST':
         try:
             make = request.POST.get('make')
-        except BaseException:
+        except:
             pass
-    print(make)
     if int(make):
-        trade_time = time.time()
         query = get_object_or_404(NFT, id=make)
-        print(int(0.7 * query.price), int(1.3 * query.price))
-        context.update({
-            'page': 'trades',
-            'nft_price_l': int(0.7 * query.price),
-            'nft_price_h': int(1.3 * query.price),
-            'nft_price': int(query.price),
-            'nft_name': str(query.name),
-            'time': str(trade_time),
-            'owner': str(query.owner),
-            'user': str(request.user)
-        })
+        if str(request.user) == str(query.owner):
+            context.update({
+                'page': 'trades',
+                'nft_price_l': int(0.7 * query.price),
+                'nft_price_h': int(1.3 * query.price),
+                'nft_price': int(query.price),
+                'nft_name': str(query.name),
+                'time': str(get_time()),
+                'owner': str(query.owner),
+                'user': str(request.user)
+            })
+          #  trade = get_object_or_404(Trade_sell, id_nft=make)
+        elif str(request.user) != str(query.owner):
+            trade = get_object_or_404(Trade_sell, id_nft=make)
+            context.update({
+                'page': 'trades',
+                'nft_price_l': min(int(request.user.balance),int(0.7 * trade.new_price)),
+                'nft_price_h': min(int(request.user.balance),int(1.3 * trade.new_price)),
+                'nft_price': int(trade.new_price),
+                'nft_name': str(trade.name),
+                'time': str(get_time()),
+                'owner': str(trade.owner),
+                'user': str(request.user)
+            })
         response = render(request, 'make_trade.html', context)
         request.session['nft_id'] = str(make)
         return response
@@ -266,81 +273,68 @@ def my_trades_page(request):
         'height': '40'
     }
     return render(request, 'my_trades.html', context)
-
+def get_time():
+    sec = time.time()
+    struct = time.localtime(sec)
+    return time.strftime('%d.%m.%Y %H:%M', struct)
 
 @login_required
 def transaction(request):
     """Function line."""
     context = {}
     make = request.session.get('nft_id')
+    query = get_object_or_404(NFT, id=int(make))
+
     if request.method == 'POST':
-        query = get_object_or_404(NFT, id=int(make))
-        if str(request.user) == str(query.owner):
-            sec = time.time()
-            query.in_market = 'true'
+        try:
+            trade_price = request.POST.get('trade_price')
+            trade_id = request.POST.get('trade_id')
+        except: pass
+        if trade_id != None:
+            trade_buy = get_object_or_404(Trade_buy,id=trade_id)
+            trade_sell = get_object_or_404(Trade_sell, id_nft = query.id)
+            buyer = get_object_or_404(CustomUser, username=trade_buy.author)
+            request.user.balance+=abs(trade_buy.new_price)
+            buyer.balance-=abs(trade_buy.new_price)
+            query.owner=buyer.username
+            query.in_market=False
+            arr = Trade_buy.objects.filter(id_nft=query.id)
+            arr.delete()
+            trade_sell.delete()
             query.save()
-            struct = time.localtime(sec)
-            trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
-            text = request.POST.get('message')
-            trade_price = request.POST.get('trade_price')
-            trade = Trade(
-                action='sale',
-                id_nft=query.id,
-                price_array=trade_price,
-                chat='',
-                stock_price = query.price,
-                owner=str(
-                    query.owner),
-                new_owner=str(
-                    request.user),
-                time=trade_time)
+            buyer.save()
+            request.user.save()
+
+        elif str(request.user) == str(query.owner) and query.in_market==False: # если владелец
+            query.in_market=True
+            query.save()
+            trade = Trade_sell(
+                image = query.image,
+                name = query.name,
+                price = query.price,
+                author = query.author,
+                description = query.description,
+                owner=query.owner,
+                id_in_arr = query.id_in_arr,
+                id_nft = query.id,
+                count = query.count,
+                new_price=trade_price,
+                in_market= query.in_market,
+                time = get_time())
+
             trade.save()
-            context.update({'text': 'operation compleate!!!!'})
-        else:
-            sec = time.time()
-            struct = time.localtime(sec)
-            trade_time = time.strftime('%d.%m.%Y %H:%M', struct)
-            query = get_object_or_404(NFT, id=int(make))
+        elif str(request.user) != str(query.owner):
             text = request.POST.get('message')
-            trade_price = request.POST.get('trade_price')
-            trade = Trade(
-                action='buy',
+            trade = Trade_buy(
                 id_nft=query.id,
-                price_array=trade_price,
-                chat=text,
-                owner=str(
-                    query.owner),
-                new_owner=str(
-                    request.user),
-                time=trade_time)
+                new_price=min(request.user.balance,abs(int(trade_price))),
+                message=text,
+                author=request.user,
+                time=get_time())
             trade.save()
+     
             context.update({'text': 'operation compleate!!!!'})
-        return render(request, 'transaction.html', context)
-    if request.method == 'GET':
-        trade = request.GET.get('trade_id')
-        person = get_object_or_404(CustomUser, username=request.user)
-        if trade:
-            t_ass = get_object_or_404(Trade, id=trade)
-            arr = []
-            new_owner_nft = get_object_or_404(
-                CustomUser, username=t_ass.new_owner)
-            ass = get_object_or_404(NFT, id=t_ass.id_nft)
-            if person.username == str(ass.owner):
-                person.balance += t_ass.price_array
-                new_owner_nft.balance -= t_ass.price_array
-                ass.in_market = 'false'
-                ass.owner = str(new_owner_nft.username)
-                person.save()
-                new_owner_nft.save()
-                ass.save()
-                print(ass.id)
-                arr = Trade.objects.filter(id_nft=int(ass.id))
-                print(2)
-                arr.delete()
-                # t_ass.delete()
-                print(1)
-                context.update({
-                    'text': 'operation compleate!!!!'})
+
     return render(request, 'transaction.html', context)
 
 

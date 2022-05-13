@@ -58,11 +58,12 @@
             {% for item in all_data %}
           <tr>
             <th scope="row">{{item.id}}</th>
-            <td scope="row">{{item.price_array}}</td>
-            <td scope="row">{{item.chat}}</td>
-            <td scope="row">{{item.new_owner}}</td>
+            <td scope="row">{{item.new_price}}</td>
+            <td scope="row">{{item.message}}</td>
+            <td scope="row">{{item.author}}</td>
             <td scope="row">{{item.time}}</td>
-            <form action='/transaction' method="GET">
+            <form action='/transaction/' method="POST">
+                {% csrf_token %}
             <td scope="row"> <button class="btn btn-primary"  name="trade_id" value = '{{item.id}}'  >Make trade  </button></td>
             </form>
           </tr>

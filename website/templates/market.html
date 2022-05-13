@@ -4,6 +4,10 @@
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Macondo&family=Poppins:wght@300&display=swap');
+
+a{
+  text-decoration: none;
+}
   .px-3 {
     display: flex;
     align-items: flex-start;
@@ -27,13 +31,14 @@ flex-direction: row;
 
 }
 .left {
-
+margin-left: 10px;
 width: 70%;
 height: 100%;
 
 }
 .right {
-
+  margin-right: 10px;
+  font-size: 15px;
   width: 30%;
 height: 100%;
 }
@@ -54,27 +59,32 @@ height: 100%;
 </style>
 <main class="px-3">
   {% for item in all_data %}
+  <a href="/data/{{item.id}}">
   <div class="card" style="width:  315px;  height:400px; color: black">
     <img class = "pictur" src= '{{item.image.url}}' >
-    <div class="card-body1">
-      <!--<h1>#{{item.id}}</h1>
-      <h5 class="card-title">{{item.name}}</h5>
-      <p class="card-text">{{item.description|truncatechars_html:80}}</p>
-      <p class="card-text">{{item.price}} $</p>
-      <a href="/data/{{item.id}}" class="btn btn-primary">View more</a>!-->
+    <div class="card-body1">   
       <div class = 'left'>
-        <span style =" color: rgba(0,0,0,0.5);">{{item.author}}<br></span>
-        <span style = "font-weight: 900;">{{item.name}} # {{item.id}} <br></span>
+        <span style =" color: rgba(0,0,0,0.5);">{{item.owner}}<br></span>
+        <span style = "font-weight: 900;">{{item.name|truncatechars_html:20}} # {{item.id}} <br></span>
         <span class = 'desc'>{{item.description|truncatechars_html:60}}</span>
       </div>
       <div class="right">
         <span>Price<br></span>
-        <span>{{item.price}}</span>
-        <span>{{item.stock_price}}</span>
+        {% if item.price == item.new_price %}
+        <span>{{item.new_price}}</span>
+        {% elif item.price > item.new_price %}
+        <span style = "color: red;"><del>{{item.price}}</del><br></span>
+        <span style = 'color: green'>{{item.new_price}}</span>
+        {% else %}
+        <span style = 'color: green'><del>{{item.price}}</del><br></span>
+        <span style = "color: red;">{{item.new_price}}</span>
+        {% endif %}
 
       </div>
     </div>
   </div>
+</a>
+
   {% endfor %}
 </main>
 {% include 'footer.html' %}
