@@ -74,11 +74,17 @@ def main_page(request):
         nftimage = request.FILES.get('myfile')
         description = request.POST.get('description')
         count = request.POST.get('count')
-
+        im = None
         try:
-            Image.open(nftimage)
+           im= Image.open(nftimage)
         except :
             return redirect('/create/')
+        im = im.size
+        if int(im[0])-int(im[1]) > 0.01*im[0]:
+            messages.error(request, 'Image is not rect!! ')
+            return redirect('/create/')
+
+        print(im)
         print('make')
         data = NFT.objects.all()
         unique = True
@@ -309,6 +315,7 @@ def transaction(request):
             query.in_market=True
             query.save()
             trade = Trade_sell(
+                owner_image = request.user.profile_pic,
                 image = query.image,
                 name = query.name,
                 price = query.price,

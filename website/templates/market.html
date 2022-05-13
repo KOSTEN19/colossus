@@ -64,7 +64,7 @@ height: 100%;
     <img class = "pictur" src= '{{item.image.url}}' >
     <div class="card-body1">   
       <div class = 'left'>
-        <span style =" color: rgba(0,0,0,0.5);">{{item.owner}}<br></span>
+        <span style =" color: rgba(0,0,0,0.5);">{{item.owner}}<img src= "{{item.owner_image}}" style = "width: 20px; height: 20px; border: 1px solid black;border-radius: 100%; margin: 5px;"><br></span>
         <span style = "font-weight: 900;">{{item.name|truncatechars_html:20}} # {{item.id}} <br></span>
         <span class = 'desc'>{{item.description|truncatechars_html:60}}</span>
       </div>

@@ -28,6 +28,7 @@ class Trade_sell(models.Model):
     author = models.TextField()
     description = models.TextField()
     owner = models.TextField()
+    owner_image =  models.ImageField(null=True, blank = True , upload_to = 'static/users/pictures', default='/static/wllp/7.png')
     count = models.IntegerField()
     in_market = models.BooleanField()
     id_in_arr = models.IntegerField()

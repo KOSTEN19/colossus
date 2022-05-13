@@ -9,7 +9,7 @@
 
 <style>
     .block {
-
+       
         width: 100%;
         display: flex;
         justify-content: center;
@@ -23,12 +23,22 @@
     }
 
     .txt{
+        color: black;
+        border-radius: 10px;
+        background-color: aliceblue;
         margin-left: 20px;
         align-items: center;
     }
 
     .it{
         margin: 30px;
+    }
+    .tabliza{
+        border-radius: 10px;
+        margin-top: 50px;
+        width: 100%;
+        background-color: white;
+        
     }
 </style>
 <form action="/trade/" method = 'POST'>
@@ -43,6 +53,7 @@
     </div>
 </form>
 {% if form.owner == request.user.username %}
+<div class ="tabliza">
 <tr>
     <table class="table table-striped">
         <thead>
@@ -70,6 +81,7 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
 {% endif %}
 
 {% include 'footer.html' %}
