@@ -250,49 +250,51 @@ def trade_page(request):
     """Function line."""
     context = {}
     if request.method == 'POST':
+
         try:
             make = request.POST.get('make')
             delete = request.POST.get('delete')
         except:
             pass
-    if delete != None:
-        query = get_object_or_404(NFT, id=delete)
-        if str(request.user) == str(query.owner):
-            trade = get_object_or_404(Trade_sell, id_nft = query.id)
-            query.in_market=False
-            query.save()
-            trade.delete()
-            return redirect('/market/')
+        if delete != None:
+            query = get_object_or_404(NFT, id=delete)
+            if str(request.user) == str(query.owner):
+                trade = get_object_or_404(Trade_sell, id_nft = query.id)
+                query.in_market=False
+                query.save()
+                trade.delete()
+                return redirect('/market/')
 
-    elif make!=None:
-        query = get_object_or_404(NFT, id=make)
-        if str(request.user) == str(query.owner):
-            context.update({
-                'page': 'trades',
-                'nft_price_l': int(0.7 * query.price),
-                'nft_price_h': int(1.3 * query.price),
-                'nft_price': int(query.price),
-                'nft_name': str(query.name),
-                'time': str(get_time()),
-                'owner': str(query.owner),
-                'user': str(request.user)
-            })
-          #  trade = get_object_or_404(Trade_sell, id_nft=make)
-        elif str(request.user) != str(query.owner):
-            trade = get_object_or_404(Trade_sell, id_nft=make)
-            context.update({
-                'page': 'trades',
-                'nft_price_l': min(int(request.user.balance),int(0.7 * trade.new_price)),
-                'nft_price_h': min(int(request.user.balance),int(1.3 * trade.new_price)),
-                'nft_price': int(trade.new_price),
-                'nft_name': str(trade.name),
-                'time': str(get_time()),
-                'owner': str(trade.owner),
-                'user': str(request.user)
-            })
+        elif make!=None:
+            query = get_object_or_404(NFT, id=make)
+            if str(request.user) == str(query.owner):
+                context.update({
+                    'page': 'trades',
+                    'nft_price_l': int(0.7 * query.price),
+                    'nft_price_h': int(1.3 * query.price),
+                    'nft_price': int(query.price),
+                    'nft_name': str(query.name),
+                    'time': str(get_time()),
+                    'owner': str(query.owner),
+                    'user': str(request.user)
+                })
+            #  trade = get_object_or_404(Trade_sell, id_nft=make)
+            elif str(request.user) != str(query.owner):
+                trade = get_object_or_404(Trade_sell, id_nft=make)
+                context.update({
+                    'page': 'trades',
+                    'nft_price_l': min(int(request.user.balance),int(0.7 * trade.new_price)),
+                    'nft_price_h': min(int(request.user.balance),int(1.3 * trade.new_price)),
+                    'nft_price': int(trade.new_price),
+                    'nft_name': str(trade.name),
+                    'time': str(get_time()),
+                    'owner': str(trade.owner),
+                    'user': str(request.user)
+                })
         response = render(request, 'make_trade.html', context)
         request.session['nft_id'] = str(make)
         return response
+    return redirect('/market/')    
 
 
 @login_required
@@ -313,11 +315,12 @@ def get_time():
 def transaction(request):
     """Function line."""
     context = {}
-    make = request.session.get('nft_id')
-    query = get_object_or_404(NFT, id=int(make))
+
 
     if request.method == 'POST':
         try:
+            make = request.session.get('nft_id')
+            query = get_object_or_404(NFT, id=int(make))
             #edit_id = request.POST.get('edit_id')
             trade_price = request.POST.get('trade_price')
             trade_id = request.POST.get('trade_id')
@@ -368,8 +371,8 @@ def transaction(request):
      
             context.update({'text': 'operation compleate!!!!'})
 
-    return render(request, 'transaction.html', context)
-
+        return render(request, 'transaction.html', context)
+    return redirect('/market/')
 
 @login_required
 def create_page(request):
