@@ -32,12 +32,12 @@
 ### _**HOW TO RUN CodeAutoFormater**_
 
 - _Windows:_
-    > .\CodeAutoFormater.bat
+> .\CodeAutoFormater.bat
 
 - _GNU/Linux or BSD_
-    > chmod +x ./CodeAutoFormater
+> chmod +x ./CodeAutoFormater
     
-    > ./CodeAutoFormater
+> ./CodeAutoFormater
 
 ```
    _       U  ___ u   _            ____     ____                ____       U _____ u  _____  
