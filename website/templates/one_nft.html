@@ -41,6 +41,10 @@
         
     }
 </style>
+<form action='/create/' method="POST">
+    {% csrf_token %}
+<td scope="row"> <button class="btn btn-primary"  name="edit_id" value = '{{form.id}}'  >Edit nft  </button></td>
+</form>
 <form action="/trade/" method = 'POST'>
     <div class="block">
         <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
@@ -73,6 +77,7 @@
             <td scope="row">{{item.message}}</td>
             <td scope="row">{{item.author}}</td>
             <td scope="row">{{item.time}}</td>
+           
             <form action='/transaction/' method="POST">
                 {% csrf_token %}
             <td scope="row"> <button class="btn btn-primary"  name="trade_id" value = '{{item.id}}'  >Make trade  </button></td>

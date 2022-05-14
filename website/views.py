@@ -1,5 +1,6 @@
 """Import line."""
 import time
+from click import edit
 import numpy as np
 from PIL import Image, ImageChops
 from website.models import NFT, Trade_sell, Trade_buy
@@ -68,7 +69,23 @@ def calcdiff(im1, im2):
 def main_page(request):
     """Function line."""
     context = {'page': 'main'}
-    if request.method == 'POST':
+    edit = 0
+    try:
+        edit = request.session.get('edit_id')
+    except: pass
+    print(edit)
+    if edit!=None:
+        print(edit,'-----')
+        print('in asss')
+        description = request.POST.get('description')
+        print(description)
+        nft = get_object_or_404(NFT, id= edit)
+        nft.description=str(description)
+        nft.save()
+        del request.session['edit_id']
+        return redirect('/inventory/')
+
+    elif request.method == 'POST':
         namenft = request.POST.get('name')
         pricenft = request.POST.get('price')
         nftimage = request.FILES.get('myfile')
@@ -93,7 +110,7 @@ def main_page(request):
                 im1 = Image.open(nftimage).convert('RGB')
                 im2 = Image.open(i.image).convert('RGB')
                 raz = calcdiff(im1, im2)
-                if raz < 15:
+                if raz < 15 or namenft == i.name:
                     unique = False
                     print(raz, unique)
         if unique:
@@ -293,6 +310,7 @@ def transaction(request):
 
     if request.method == 'POST':
         try:
+            #edit_id = request.POST.get('edit_id')
             trade_price = request.POST.get('trade_price')
             trade_id = request.POST.get('trade_id')
         except: pass
@@ -349,6 +367,22 @@ def transaction(request):
 def create_page(request):
     """Function line."""
     context = {
-        'page': 'create'
-    }
-    return render(request, 'create_NFT.html', context)
+        'page': 'create',
+        }
+    edit_id = 0
+    print('---------')
+    if request.method == 'POST':
+        edit_id = request.POST.get('edit_id')
+        print('---------')
+        print(edit_id)
+        print('---------')
+        nft = get_object_or_404(NFT, id = int(edit_id))
+        
+        request.session['edit_id'] = nft.id
+        context.update({
+        'page': 'create',
+        'nft': nft,
+        'edit': True,
+    })
+    response = render(request, 'create_NFT.html', context)
+    return response

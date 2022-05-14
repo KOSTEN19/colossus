@@ -23,14 +23,22 @@
       {% csrf_token %}
       <div id="formContent">
         <h2 class="active"> Create NFT </h2>
+        {% if edit == True %}
         <p><span for='id_username'> Name </span>
-          <input type="text" class="form-control" name="name" placeholder="" aria-label="First name"
+          <input   readonly type="text" class="form-control" name="name" value="{{nft.name}}" aria-label="First name"
             style='margin: 10px;' required>
         </p>
+        {% else %}
+        <p><span for='id_username'> Name </span>
+          <input type="text" class="form-control" name="name" value="{{nft.name}}" aria-label="First name"
+            style='margin: 10px;' required>
+        </p>
+        {% endif %}
         <p><span for='id_username'> Description </span>
-          <input type="text" class="form-control" name="description" placeholder="" aria-label="description"
+          <input type="text" class="form-control" name="description" value="{{nft.description}}" placeholder="" aria-label="description"
             style='margin: 10px;' required>
         </p>
+        {% if edit != True %}
         <p><span for='id_username'> Price<br> </span>
           <input type="number" class="form-control" name="price" placeholder="Price" aria-label="Price" min="1"
             style='margin: 10px;' required>
@@ -50,7 +58,7 @@
           {% endfor %}
         </div>
         {% endif %}
-
+        {% endif %}
         <div class="col" style='margin: 10px;'>
           <input type="submit" class="btn but btn-secondary" name="submit" value='Upload' /><br />
         </div>
