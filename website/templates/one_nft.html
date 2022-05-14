@@ -23,15 +23,33 @@
     }
 
     .txt{
+        display:flex ;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 50%;
+
+
         color: black;
         border-radius: 10px;
         background-color: aliceblue;
         margin-left: 20px;
         align-items: center;
+        
     }
 
     .it{
+        width: 100%;
+        max-width: 500px;
         margin: 30px;
+        
+        word-wrap: break-word;
+    }
+    .desc{
+        word-wrap: break-word;
+        width: 100%;    
+        height: 100%;
+        margin: 30px;
+        padding: 30px;
     }
     .tabliza{
         border-radius: 10px;
@@ -40,22 +58,29 @@
         background-color: white;
         
     }
+    .btn{
+        margin: 30px;
+    }
+
 </style>
-<form action='/create/' method="POST">
-    {% csrf_token %}
-<td scope="row"> <button class="btn btn-primary"  name="edit_id" value = '{{form.id}}'  >Edit nft  </button></td>
-</form>
-<form action="/trade/" method = 'POST'>
+
+
     <div class="block">
         <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
         <div class="txt">
             <h1  class = 'it'> Name : {{form.name}}</h1>
-            <h5 class = "description it">{{form.description}}</h5>
-            {% csrf_token %}
-            <button class="btn btn-primary it"  name="make" value = '{{form.id}}'  >Make trade </button>
+            <h5 class = 'desc'>{{form.description}}</h5>
+            <form action="/trade/" method = 'POST'>
+                {% csrf_token %}
+            <button class="btn btn-primary "  name="make" value = '{{form.id}}'  >Make trade </button>
+            </form>
+            <form action='/create/' method="POST">
+                {% csrf_token %}
+            <td scope="row"> <button class="btn btn-primary "  name="edit_id" value = '{{form.id}}'  >Edit nft  </button></td>
+            </form>
         </div>
     </div>
-</form>
+
 {% if form.owner == request.user.username %}
 <div class ="tabliza">
 <tr>
