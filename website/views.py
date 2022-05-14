@@ -74,10 +74,7 @@ def main_page(request):
     except: pass
     print(edit)
     if edit!=None:
-        print(edit,'-----')
-        print('in asss')
         description = request.POST.get('description')
-        print(description)
         nft = get_object_or_404(NFT, id= edit)
         nft.description=str(description)
         nft.save()
@@ -130,13 +127,10 @@ def main_page(request):
                     nft.save()
                 except BaseException:
                     return redirect('/create/')
-        if unique:
             return redirect('/inventory/')
         else:
             messages.error(request, 'NFT is not unique!!!')
-            print('here')
             return redirect('/create/')
-    else:print('BAN')
     return render(request, 'main.html', context)
 
 
@@ -162,8 +156,15 @@ def profile_page(request):
     person = get_object_or_404(CustomUser, username=request.user)
     if request.method == 'POST':
         profile_image = request.FILES.get('myfile')
-        print('in post')
         person.profile_pic = profile_image
+        data = Trade_sell.objects.all()
+        for i in data:
+            if str(i.owner) == str(request.user):
+                i.owner_image = profile_image
+                i.save()
+                #print(str(i.owner), str(request.user))
+        print('in post')
+        
         print(profile_image)
         person.save()
     context = {'page': 'profile', 'height': '20', 'form': person}
