@@ -75,7 +75,7 @@
         {% endif %}
         {% endif %}
         {% if request.user.is_authenticated %}
-        <div class="nav-link ">{{request.user.balance}}</div>
+        <div class="bal nav-link" style="border-bottom-color: #fff; color: #fff; display: flex; justify-content: center"><div style="margin: 0 3px 0 0; ">bal: </div> <em>{{request.user.balance}}</em></div>
         {% if page == "profile" %}
         <a class="nav-link active" href="/profile/">{{ request.user }}</a>
         {% else %}
