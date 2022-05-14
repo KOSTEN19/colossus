@@ -1,6 +1,5 @@
 """Import line."""
 import time
-from click import edit
 import numpy as np
 from PIL import Image, ImageChops
 from website.models import NFT, Trade_sell, Trade_buy
