@@ -78,6 +78,12 @@
                 {% csrf_token %}
             <td scope="row"> <button class="btn btn-primary "  name="edit_id" value = '{{form.id}}'  >Edit nft  </button></td>
             </form>
+            {% if form.in_market == True %}
+            <form action='/trade/' method="POST">
+                {% csrf_token %}
+            <td scope="row"> <button class="btn btn-danger "  name="delete" value = '{{form.id}}'  >Delete trade  </button></td>
+            </form>
+            {% endif %}
         </div>
     </div>
 

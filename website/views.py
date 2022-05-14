@@ -193,9 +193,7 @@ def inventory_page(request):
             sort = ''
         if sort == 'name':
             context = {
-                'all_data': NFT.objects.filter(
-                    owner=str(
-                        request.user)).order_by('name'),
+                'all_data': NFT.objects.filter(owner=str(request.user)).order_by('name'),
                 'page': 'inventory',
                 'height': '40'}
         if sort == 'price':
@@ -234,13 +232,13 @@ def market_page(request):
 
         if sort == 'name':
             context = {
-                'all_data': NFT.objects.order_by('name'),
+                'all_data': Trade_sell.objects.all().order_by('name'),
                 'page': 'market',
                 'height': '40'
             }
         if sort == 'price':
             context = {
-                'all_data': NFT.objects.order_by('-price')[::-1],
+                'all_data': Trade_sell.objects.all().order_by('-new_price')[::-1],
                 'page': 'market',
                 'height': '40'
             }
@@ -254,9 +252,19 @@ def trade_page(request):
     if request.method == 'POST':
         try:
             make = request.POST.get('make')
+            delete = request.POST.get('delete')
         except:
             pass
-    if int(make):
+    if delete != None:
+        query = get_object_or_404(NFT, id=delete)
+        if str(request.user) == str(query.owner):
+            trade = get_object_or_404(Trade_sell, id_nft = query.id)
+            query.in_market=False
+            query.save()
+            trade.delete()
+            return redirect('/market/')
+
+    elif make!=None:
         query = get_object_or_404(NFT, id=make)
         if str(request.user) == str(query.owner):
             context.update({
@@ -291,7 +299,7 @@ def trade_page(request):
 def my_trades_page(request):
     """Function line."""
     context = {
-        'all_data': Trade.objects.filter(new_owner=str(request.user)),
+        'all_data': Trade_sell.objects.filter(new_owner=str(request.user)),
         'page': 'trades',
         'height': '40'
     }

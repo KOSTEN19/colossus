@@ -111,7 +111,9 @@ height: 100%;
 <main class="px-3">
   {% for item in all_data %}
   <a href="/data/{{item.id}}">
+    {{item.in_market}}
     {% if item.in_market == True %}
+  
   <div class="card" style="width:  315px;  height:400px; color: black;opacity: 0.5;">
     {% else %}
     <div class="card" style="width:  315px;  height:400px; color: black;">
