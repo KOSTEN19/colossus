@@ -9,115 +9,159 @@
 
 <style>
     .block {
-       
+        margin: 50px;
         width: 100%;
         display: flex;
         justify-content: center;
-        
+        flex-wrap: wrap;
         align-items: center;
     }
 
     .nft {
-        width: 600px;
-
+        width: 100%;
+        object-fit: cover;
     }
 
-    .txt{
-        display:flex ;
+    .txt {
+        display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        width: 50%;
+        width: 100%;
 
 
         color: black;
         border-radius: 10px;
         background-color: aliceblue;
-        margin-left: 20px;
+        margin: 20px 0;
         align-items: center;
-        
+
     }
 
-    .it{
+    .it {
         width: 100%;
-        max-width: 500px;
         margin: 30px;
-        
+        text-align: left;
         word-wrap: break-word;
     }
-    .desc{
+
+    .desc {
         word-wrap: break-word;
-        width: 100%;    
+        width: 100%;
         height: 100%;
         margin: 30px;
         padding: 30px;
+
     }
-    .tabliza{
+
+    .tabliza {
         border-radius: 10px;
-        margin-top: 50px;
+        margin-left: 20px;
         width: 100%;
         background-color: white;
-        
+
     }
-    .btn{
+
+    .btn {
         margin: 30px;
     }
 
+    .accordion {
+        width: 100%;
+    }
+
+    .inf {
+        align-self: center;
+    }
+
+    .left {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .right {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .accordion-item {
+        font-family: "Poppins", sans-serif;
+        width: 100%;
+        margin-left: 20px;
+    }
 </style>
 
 
-    <div class="block">
+<div class="block">
+    <div class="left">
         <img id="foo" class="nft rounded-3" src="{{form.image.url}}" onerror="standby()">
+
+
         <div class="txt">
-            <h1  class = 'it'> Name : {{form.name}}</h1>
-            <h5 class = 'desc'>{{form.description}}</h5>
-            <form action="/trade/" method = 'POST'>
-                {% csrf_token %}
-            <button class="btn btn-primary "  name="make" value = '{{form.id}}'  >Make trade </button>
-            </form>
-            <form action='/create/' method="POST">
-                {% csrf_token %}
-            <td scope="row"> <button class="btn btn-primary "  name="edit_id" value = '{{form.id}}'  >Edit nft  </button></td>
-            </form>
+
+            <h1 class='it'> {{form.name}}</h1>
+            <hr style="width: 100%; height: 1px; color: black;">
+            <h5 class='desc'>{{form.description}}
+                <form action="/trade/" method='POST'>
+                    {% csrf_token %}
+                    <button class="btn btn-primary " name="make" value='{{form.id}}'>Make trade </button>
+                </form>
+                <form action='/create/' method="POST">
+                    {% csrf_token %}
+                    <td scope="row"> <button class="btn btn-primary " name="edit_id" value='{{form.id}}'>Edit nft </button>
+                    </td>
+                </form>
+            </h5>
+           
             {% if form.in_market == True %}
             <form action='/trade/' method="POST">
                 {% csrf_token %}
-            <td scope="row"> <button class="btn btn-danger "  name="delete" value = '{{form.id}}'  >Delete trade  </button></td>
+                <td scope="row"> <button class="btn btn-danger " name="delete" value='{{form.id}}'>Delete trade
+                    </button></td>
             </form>
             {% endif %}
         </div>
     </div>
+    <div class="right">
+        {% if form.owner == request.user.username %}
+        <div class="tabliza">
+            <tr>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">price</th>
+                            <th scope="col">message</th>
+                            <th scope="col">new_owner</th>
+                            <th scope="col">time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in all_data %}
+                        <tr>
+                            <th scope="row">{{item.id}}</th>
+                            <td scope="row">{{item.new_price}}</td>
+                            <td scope="row">{{item.message}}</td>
+                            <td scope="row">{{item.author}}</td>
+                            <td scope="row">{{item.time}}</td>
 
-{% if form.owner == request.user.username %}
-<div class ="tabliza">
-<tr>
-    <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">price</th>
-            <th scope="col">message</th>
-            <th scope="col">new_owner</th>
-            <th scope="col">time</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for item in all_data %}
-          <tr>
-            <th scope="row">{{item.id}}</th>
-            <td scope="row">{{item.new_price}}</td>
-            <td scope="row">{{item.message}}</td>
-            <td scope="row">{{item.author}}</td>
-            <td scope="row">{{item.time}}</td>
-           
-            <form action='/transaction/' method="POST">
-                {% csrf_token %}
-            <td scope="row"> <button class="btn btn-primary"  name="trade_id" value = '{{item.id}}'  >Make trade  </button></td>
-            </form>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+                            <form action='/transaction/' method="POST">
+                                {% csrf_token %}
+                                <td scope="row"> <button class="btn btn-primary" name="trade_id"
+                                        value='{{item.id}}'>Make trade </button></td>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+        {% endif %}
     </div>
-{% endif %}
 
-{% include 'footer.html' %}
+
+    {% include 'footer.html' %}
