@@ -1,9 +1,12 @@
+
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,macos,python,pycharm,visualstudio,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,macos,python,pycharm,visualstudio,visualstudiocode
 
 # project
 db.sqlite3
+
 /bootstrap-5.1.3-examples/*
+/static/users/pictures/*
 /.idea/
 /static/nft/nft_pack/*
 ### Linux ###

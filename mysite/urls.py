@@ -25,7 +25,7 @@ urlpatterns = [
     path('inventory/', views.inventory_page, name='inventory'),
     path('trade/', views.trade_page, name='trade'),
     path('trades/', views.my_trades_page, name='trades'),
-    path('data/<int:post_id>', views.data_post_id),
+    path('market/<int:post_id>', views.data_post_id),
     path('', views.main_page, ),
     path('market/', views.market_page, name='market'),
     path('create/', views.create_page),
