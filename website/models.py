@@ -17,6 +17,7 @@ class NFT(models.Model):
     id_in_arr = models.IntegerField()
 
 
+
 class Trade_sell(models.Model):
     """Class line."""
     id_nft = models.IntegerField()

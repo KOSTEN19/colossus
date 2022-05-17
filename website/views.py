@@ -122,7 +122,9 @@ def main_page(request):
                         id_in_arr=i,
                         in_market = False,
                         author = str(request.user),
-                        count=int(count))
+                        count=int(count),
+                        
+                    )
     
                     nft.save()
                 except BaseException:
@@ -324,7 +326,10 @@ def transaction(request):
             #edit_id = request.POST.get('edit_id')
             trade_price = request.POST.get('trade_price')
             trade_id = request.POST.get('trade_id')
+            sell = request.POST.get('sell')
+
         except: pass
+        print('-------------',sell)
         if trade_id != None:
             trade_buy = get_object_or_404(Trade_buy,id=trade_id)
             trade_sell = get_object_or_404(Trade_sell, id_nft = query.id)
@@ -341,24 +346,51 @@ def transaction(request):
             request.user.save()
 
         elif str(request.user) == str(query.owner) and query.in_market==False: # если владелец
-            query.in_market=True
+            
             query.save()
-            trade = Trade_sell(
-                owner_image = request.user.profile_pic,
-                image = query.image,
-                name = query.name,
-                price = query.price,
-                author = query.author,
-                description = query.description,
-                owner=query.owner,
-                id_in_arr = query.id_in_arr,
-                id_nft = query.id,
-                count = query.count,
-                new_price=trade_price,
-                in_market= query.in_market,
-                time = get_time())
+            if sell== 'on':
+                arr_nfts = NFT.objects.filter(name= query.name)
+                for i in arr_nfts:
+                    if i.in_market==False and request.user==i.owner:
+                        trade = Trade_sell(
+                        owner_image = request.user.profile_pic,
+                        image = i.image,
+                        name = i.name,
+                        price = i.price,
+                        author = i.author,
+                        description = i.description,
+                        owner=i.owner,
+                        id_in_arr = i.id_in_arr,
+                        id_nft =i.id,
+                        count =i.count,
+                        new_price=trade_price,
+                        in_market= i.in_market,
+                        time = get_time())
+                        trade.save()
+                        i.in_market=True
+                        i.save()
+                    trade.save()
+              
+            else:
+                query.in_market=True
+                trade = Trade_sell(
+                    owner_image = request.user.profile_pic,
+                    image = query.image,
+                    name = query.name,
+                    price = query.price,
+                    author = query.author,
+                    description = query.description,
+                    owner=query.owner,
+                    id_in_arr = query.id_in_arr,
+                    id_nft = query.id,
+                    count = query.count,
+                    new_price=trade_price,
+                    in_market= query.in_market,
+                    time = get_time())
+                query.save()    
+                trade.save()
 
-            trade.save()
+         
         elif str(request.user) != str(query.owner):
             text = request.POST.get('message')
             trade = Trade_buy(
