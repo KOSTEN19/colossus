@@ -385,9 +385,9 @@ body {
     /* абсолютно позиционируем */
     position: absolute;
     /* относительно левого края панели */
-    left: 0px;
+    left: 10px;
     /* отступ от верхнего края панели */
-    top: 1em;
+    top: 20px;
     /* внутренние отступы */
     padding: 0.5em;
     /* определяем цвет фона переключателя
@@ -428,25 +428,23 @@ body {
     -moz-transition: left 0.3s;
     transition: left 0.3s;
     /* определяем цвет фона панели */
-    background: #16a085;
+    background: #424862     ;
+ 
     /* поверх других элементов */
     z-index: 2000;
 }
 </style>
 <input type="checkbox" id="navi-toggle" hidden>
 <label for="navi-toggle" class="navi-toggle" onclick></label>
-<nav class="navi">
+<nav class="navi" style = "overflow-y: hidden;">
 
     <h2 class="logo"> 
-        <img id="foo"  src="{{request.user.profile_pic.url}}"  style = "width: 100px; height: 100px; border: 1px solid black;border-radius: 100%; margin: 5px;">
+        <h3>Menu</h3>
+        <img id="foo"  src="{{request.user.profile_pic.url}}"  style = "width: 100%; height: auto;  margin: 40px 0px 10px; border-radius: 5%;">
     </h2>
-    <ul>
-        <li><a href="#1">Один</a>
-        <li><a href="#2">Два</a>
-        <li><a href="#3">Три</a>
-        <li><a href="#4">Четыре</a>
-        <li><a href="#5">Пять</a>
-        <li><a href="#6">Шесть</a>
-        <li><a href="#7">Семь</a> 
+    <ul style = "height: 100%;">
+       <li> <a class="nav-link active" href="/profile/">profile</a> </li>
+          <li>  <a class="nav-link active" href="/inventory/">Inventory</a></li>
+        <li  ><a class="nav-link" href="/logout">Logout</a></li>
     </ul>
   </nav>

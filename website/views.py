@@ -351,7 +351,9 @@ def transaction(request):
             if sell== 'on':
                 arr_nfts = NFT.objects.filter(name= query.name)
                 for i in arr_nfts:
-                    if i.in_market==False and request.user==i.owner:
+                  
+                    if i.in_market==False and str(request.user)==str(i.owner):
+                     
                         trade = Trade_sell(
                         owner_image = request.user.profile_pic,
                         image = i.image,
@@ -369,7 +371,7 @@ def transaction(request):
                         trade.save()
                         i.in_market=True
                         i.save()
-                    trade.save()
+                        trade.save()
               
             else:
                 query.in_market=True

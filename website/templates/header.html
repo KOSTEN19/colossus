@@ -82,12 +82,8 @@
         {% endif %}
         {% endif %}
         {% if request.user.is_authenticated %}
-        <div class="bal nav-link" style="border-bottom-color: #fff; color: #fff; display: flex; justify-content: center"><div style="margin: 0 3px 0 0; ">bal: </div> <em>{{request.user.balance}}</em></div>
-        {% if page == "profile" %}
-        <a class="nav-link active" href="/profile/">{{ request.user }}</a>
-        {% else %}
-        <a class="nav-link" href="/profile/">{{ request.user }}</a>
-        {% endif %}
+       
+      
         {% if page == "clicker" %}
         <a class="nav-link active" href="/clicker/">clicker</a>
         {% else %}
@@ -101,7 +97,8 @@
         {% endif %}
         {% endif %}
         {% if request.user.is_authenticated %}
-        <a class="nav-link" href="/logout">Logout</a>
+        
+        <div class="bal nav-link"> {{request.user.balance}}</div>
         {% endif %}
       </nav>
     </header>
