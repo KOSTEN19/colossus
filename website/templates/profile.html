@@ -20,7 +20,7 @@
           Settings
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="#">Action</a></li>
+         
           <li>
               <form method="post" enctype="multipart/form-data" action="/profile/" style="padding:10px">
                 <h5>Смена изображения профиля:</h5>
@@ -37,37 +37,28 @@
 
         </ul>
     </div>
-   
     {{form.as_p}}
-    <table class="table">
+    <table class="table" style="background-color: white;border-radius: 10px; margin-top: 40px;">
         <thead>
           <tr>
             <th scope="col">#</th>
-        
             <th scope="col">Earned total</th>
             <th scope="col">Spent total</th>
-            <th scope="col">Wins</th>
-            <th scope="col">Bots bought</th>
             <th scope="col">NFTs bought</th>
             <th scope="col">NFTs sold</th>
           </tr>
         </thead>
-        <tbody>
+    
           <tr>
             <th scope="row">1</th>
        
             <td>{{ Earned }} {{request.user.balance}}</td>
-            <td>{{ Spent }} {{request.user.balance}}</td>
-            <td>{{ Wins }} {{request.user.balance}}</td>
-            <td>{{ Bots }} {{request.user.balance}}</td>
-            <td>{{ NFTs_bought }} {{request.user.balance}}</td>
-            <td>{{ NFTs_sold }} {{request.user.balance}}</td>
-        </div>
-          </tr>
+            <td>{{ Spent }} {{request.user.spend_total}}</td>
+            <td>{{ NFTs_bought }} {{request.user.nft_buyght}}</td>
+            <td>{{ NFTs_sold }} {{request.user.nft_sell}}</td>
+        
+          
 
-        </tbody>
-      </table>
-
+      
 </div>
-
 {%include 'footer.html' %}

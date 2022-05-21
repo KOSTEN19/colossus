@@ -339,7 +339,10 @@ def transaction(request):
             buyer = get_object_or_404(CustomUser, username=trade_buy.author)
             request.user.balance+=abs(trade_buy.new_price)
             buyer.balance-=abs(trade_buy.new_price)
+            buyer.spend_total+=trade_buy.new_price
             query.owner=buyer.username
+            request.user.nft_sell+=1
+            buyer.nft_buyght+=1
             query.in_market=False
             arr = Trade_buy.objects.filter(id_nft=query.id)
             arr.delete()
