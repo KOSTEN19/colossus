@@ -35,4 +35,5 @@ urlpatterns = [
     path('logout/', views.logout_user),
     path('transaction/', views.transaction),
     path('game/', views.game_page, name='game'),
+    path('agreement/', views.agreement, name='agreement')
 ] + static(settings.NFT_URL, document_root=settings.NFT_ROOT)

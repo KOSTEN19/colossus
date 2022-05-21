@@ -15,8 +15,9 @@
                 {% for f in form %}
                 <div class="form-error"> {{f.errors}}</div>
                 <p><span for='{{f.id_for_label}}'> {{ f.label}} </span>{{f}}</p>
-                
                 {% endfor %}
+                <input class="form-check-input" type="checkbox"> I have read <a href="/agreement">user agreement</a> </input>
+                <div></div>
                 <input type="submit" value="Sign up" class="but">
             </div>
         </form>

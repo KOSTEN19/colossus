@@ -146,6 +146,10 @@ def login_page(request):
     'language' : get_language(request)}
     return render(request, 'login.html', context)
 
+def agreement(request):
+    """Function line."""
+    context = {'language' : get_language(request)}
+    return render(request, 'agreement.html', context)
 
 @login_required
 def data_post_id(request, post_id):
