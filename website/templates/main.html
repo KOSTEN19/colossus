@@ -1,13 +1,28 @@
 {% include 'header.html' %}
+{% if page != login and page != registory %}
 {% include 'navi.html' %}
+{% endif %}
 <main class="px-3">
   
   <h1 class="fw-bold">Project Colossus</h1>
   <p class="lead">Вся эта ваша криптовалюта, акции, фьючерсы, паи. Вот раньше было лучше!! Во всём виноваты, как всегда, эти пендосы тупые....</p>
   {% if not request.user.is_authenticated %}
+  {% if language == "en" %}
   <p class="lead"><a type="button" href="/registory/" class="btn btn-primary btn-lg" id="buttonalert">Get started</a></p>
+  {% elif language == "fr" %}
+  <p class="lead"><a type="button" href="/registory/" class="btn btn-primary btn-lg" id="buttonalert">Сommencer</a></p>
+  {% elif language == "ru"  %}
+  <p class="lead"><a type="button" href="/registory/" class="btn btn-primary btn-lg" id="buttonalert">Начать</a></p>
+ {% endif %}
   {% else %}
+  {% if language == "en" %}
   <p class="lead"><a type="button" href="/create/" class="btn btn-primary btn-lg" id="buttonalert">Add new NFT</a></p>
+  {% elif language == "fr" %}
+  <p class="lead"><a type="button" href="/create/" class="btn btn-primary btn-lg" id="buttonalert">Créer NFT</a></p>
+  {% elif language == "ru"  %}
+  <p class="lead"><a type="button" href="/create/" class="btn btn-primary btn-lg" id="buttonalert">Создать NFT</a></p>
+ {% endif %}
+
   {% endif %}
 </main>
 {% include 'footer.html' %} 

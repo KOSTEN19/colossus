@@ -22,33 +22,87 @@
     <form method="POST" enctype="multipart/form-data" action='/'>
       {% csrf_token %}
       <div id="formContent">
+        {% if language == "en" %}
         <h2 class="active"> Create NFT </h2>
+     {% elif language == "fr" %}
+     <h2 class="active">CRÉER NFT </h2>
+     {% elif language == "ru"  %}
+     <h2 class="active"> СОЗДАТЬ NFT</h2>
+    {% endif %}
         {% if edit == True %}
+        {% if language == "en" %}
         <p><span for='id_username'> Name </span>
+        {% elif language == "fr" %}
+        <p><span for='id_username'> Titre </span>
+        {% elif language == "ru"  %}
+        <p><span for='id_username'> Название</span>
+       {% endif %}
+      
           <input   readonly type="text" class="form-control" name="name" value="{{nft.name}}" aria-label="First name"
             style='margin: 10px;' required>
         </p>
         {% else %}
+        {% if language == "en" %}
         <p><span for='id_username'> Name </span>
+        {% elif language == "fr" %}
+        <p><span for='id_username'> Titre </span>
+        {% elif language == "ru"  %}
+        <p><span for='id_username'> Название</span>
+       {% endif %}
+       <br>
           <input type="text" class="form-control" name="name" value="{{nft.name}}" aria-label="First name"
             style='margin: 10px;' required>
         </p>
         {% endif %}
+        {% if language == "en" %}
         <p><span for='id_username'> Description </span>
+        {% elif language == "fr" %}
+        <p><span for='id_username'> La description </span>
+        {% elif language == "ru"  %}
+        <p><span for='id_username'> Описание</span>
+       {% endif %}
+   
           <input type="text" class="form-control" name="description" value="{{nft.description}}" placeholder="" aria-label="description"
             style='margin: 10px;' required>
         </p>
         {% if edit != True %}
+        {% if language == "en" %}
         <p><span for='id_username'> Price<br> </span>
+        {% elif language == "fr" %}
+        <p><span for='id_username'> Prix<br> </span>
+        {% elif language == "ru"  %}
+        <p><span for='id_username'> Цена <br> </span>
+       {% endif %}
+    
           <input type="number" class="form-control" name="price" placeholder="Price" aria-label="Price" min="1"
             style='margin: 10px;' required>
-        <p><span for='id_username'> Number of NFTS<br> </span>
+            {% if language == "en" %}
+            <p><span for='id_username'> Number of NFTS<br> </span>
+            {% elif language == "fr" %}
+            <p><span for='id_username'> Nombre de NFTS<br> </span>
+            {% elif language == "ru"  %}
+            <p><span for='id_username'> Количество NFT<br> </span>
+           {% endif %}
           <input type="number" class="form-control" name="count" placeholder="Price" aria-label="Price" min="1"
             style='margin: 10px;' required>
 
-        <p><span for='id_username'> File: </span>
+            {% if language == "en" %}
+            <p><span for='id_username'> File: </span>
+            {% elif language == "fr" %}
+            <p><span for='id_username'> Fichier: </span>
+            {% elif language == "ru"  %}
+            <p><span for='id_username'> Файл: </span>
+           {% endif %}  
           <label for="formFile" class="form-label"></label>
-          <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" name="myfile" required>
+          {% if language == "en" %}
+          <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" name="myfile" required  data-buttonText=" Choose file">
+          {% elif language == "fr" %}
+          <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" name="myfile" required  data-buttonText="Choisir le fichier">
+          {% elif language == "ru"  %}
+          <input class="form-control" type="file" accept="image/png, image/gif, image/jpeg" name="myfile" required data-buttonText=" выберите файл">
+         {% endif %}  
+       
+
         </p>
         {% if messages %}
         <div class="alert alert-danger" role="alert">
@@ -60,7 +114,13 @@
         {% endif %}
         {% endif %}
         <div class="col" style='margin: 10px;'>
+          {% if language == "en" %}
           <input type="submit" class="btn but btn-secondary" name="submit" value='Upload' /><br />
+          {% elif language == "fr" %}
+          <input type="submit" class="btn but btn-secondary" name="submit" value='TÉLÉCHARGER' /><br />
+          {% elif language == "ru"  %}
+          <input type="submit" class="btn but btn-secondary" name="submit" value='ЗАГРУЗИТЬ' /><br />
+         {% endif %}  
         </div>
 
       </div>

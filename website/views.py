@@ -64,10 +64,14 @@ def calcdiff(im1, im2):
     dif = ImageChops.difference(im1, im2)
     return np.mean(np.array(dif))
 
-
+def get_language(request):
+    val = str(request.COOKIES.get('language'))
+    if val == 'None':
+        return 'en'
+    else :  return str(request.COOKIES.get('language'))
 def main_page(request):
     """Function line."""
-    context = {'page': 'main'}
+    context = {'page': 'main','language' : get_language(request)}
     edit = 0
     try:
         edit = request.session.get('edit_id')
@@ -138,7 +142,8 @@ def main_page(request):
 
 def login_page(request):
     """Function line."""
-    context = {'page': 'create'}
+    context = {'page': 'create',
+    'language' : get_language(request)}
     return render(request, 'login.html', context)
 
 
@@ -148,6 +153,7 @@ def data_post_id(request, post_id):
     query = get_object_or_404(NFT, id=post_id)
     context = {'form': query,
                'all_data': Trade_buy.objects.filter(id_nft=post_id),
+               'language' : get_language(request)
                }
     return render(request, 'one_nft.html', context)
 
@@ -159,24 +165,20 @@ def profile_page(request):
     if request.method == 'POST':
         profile_image = request.FILES.get('myfile')
         person.profile_pic = profile_image
+        person.save()
         data = Trade_sell.objects.all()
         for i in data:
             if str(i.owner) == str(request.user):
                 i.owner_image = profile_image
                 i.save()
-                #print(str(i.owner), str(request.user))
-        print('in post')
-        
-        print(profile_image)
-        person.save()
-    context = {'page': 'profile', 'height': '20', 'form': person}
+    context = {'page': 'profile', 'height': '20', 'form': person,'language' : get_language(request)}
     return render(request, 'profile.html', context)
 
 
 @login_required
 def game_page(request):
     """Function line."""
-    context = {'height': '40', 'page': 'game'}
+    context = {'height': '40', 'page': 'game','language' : get_language(request)}
     return render(request, 'game.html', context)
 
 
@@ -186,7 +188,8 @@ def inventory_page(request):
     context = {
         'all_data': NFT.objects.filter(owner=str(request.user)),
         'page': 'inventory',
-        'height': '40'
+        'height': '40',
+        'language' : get_language(request)
     }
     if request.method == 'GET':
         try:
@@ -197,10 +200,11 @@ def inventory_page(request):
             context = {
                 'all_data': NFT.objects.filter(owner=str(request.user)).order_by('name'),
                 'page': 'inventory',
-                'height': '40'}
+                'height': '40',
+                'language' : get_language(request)}
         if sort == 'price':
             context = {'all_data': NFT.objects.filter(owner=str(request.user)).order_by(
-                '-price')[::-1], 'page': 'inventory', 'height': '40'}
+                '-price')[::-1], 'page': 'inventory', 'height': '40','language' : get_language(request)}
     return render(request, 'inventory.html', context)
 
 
@@ -211,7 +215,7 @@ def clicker_page(request):
         player = get_object_or_404(CustomUser, username=request.user)
         player.balance += min(100000, abs(int((request.POST.get('balance')))))
         player.save()
-    context = {'page': 'clicker'}
+    context = {'page': 'clicker','language' : get_language(request)}
     return render(request, 'clicker.html', context)
 
 
@@ -222,7 +226,7 @@ def market_page(request):
         'all_data': Trade_sell.objects.all(),
         # .exclude(owner=str(request.user))
         'page': 'market',
-        'height': '40'
+        'height': '40','language' : get_language(request)
     }
 
     if request.method == 'GET':
@@ -236,13 +240,13 @@ def market_page(request):
             context = {
                 'all_data': Trade_sell.objects.all().order_by('name'),
                 'page': 'market',
-                'height': '40'
+                'height': '40','language' : get_language(request)
             }
         if sort == 'price':
             context = {
                 'all_data': Trade_sell.objects.all().order_by('-new_price')[::-1],
                 'page': 'market',
-                'height': '40'
+                'height': '40','language' : get_language(request)
             }
     return render(request, 'market.html', context)
 
@@ -278,7 +282,7 @@ def trade_page(request):
                     'nft_name': str(query.name),
                     'time': str(get_time()),
                     'owner': str(query.owner),
-                    'user': str(request.user)
+                    'user': str(request.user),'language' : get_language(request)
                 })
             #  trade = get_object_or_404(Trade_sell, id_nft=make)
             elif str(request.user) != str(query.owner):
@@ -291,7 +295,7 @@ def trade_page(request):
                     'nft_name': str(trade.name),
                     'time': str(get_time()),
                     'owner': str(trade.owner),
-                    'user': str(request.user)
+                    'user': str(request.user),'language' : get_language(request)
                 })
         response = render(request, 'make_trade.html', context)
         request.session['nft_id'] = str(make)
@@ -305,7 +309,7 @@ def my_trades_page(request):
     context = {
         'all_data': Trade_sell.objects.filter(new_owner=str(request.user)),
         'page': 'trades',
-        'height': '40'
+        'height': '40','language' : get_language(request)
     }
     return render(request, 'my_trades.html', context)
 def get_time():
@@ -329,7 +333,6 @@ def transaction(request):
             sell = request.POST.get('sell')
 
         except: pass
-        print('-------------',sell)
         if trade_id != None:
             trade_buy = get_object_or_404(Trade_buy,id=trade_id)
             trade_sell = get_object_or_404(Trade_sell, id_nft = query.id)
@@ -405,14 +408,14 @@ def transaction(request):
      
             context.update({'text': 'operation compleate!!!!'})
 
-        return render(request, 'transaction.html', context)
+       # return render(request, 'transaction.html', context)
     return redirect('/market/')
 
 @login_required
 def create_page(request):
     """Function line."""
     context = {
-        'page': 'create',
+        'page': 'create','language' : get_language(request)
         }
     edit_id = 0
     print('---------')

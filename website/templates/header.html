@@ -17,17 +17,42 @@
 
 <body class="d-flex h-100 text-center text-white bg-dark flex-column">
   <div class=" cover-container d-flex w-100 h-{% if height %}{{ height }}{% else %}100{% endif %} p-3 mx-auto flex-column">
-    {% include 'navi.html' %}
+ {% if page  %}
+ {% include 'navi.html' %}
+ {% endif %}
     <header class="mb-auto">
       <nav class="nav nav-masthead justify-content-center float-md-start">
-        {% if page == "main" %}
-        <a class="nav-link active" aria-current="page" href="/">Home</a>
+        {% if page == "main" %}   
+           {% if language == "en" %}
+           <a class="nav-link active" aria-current="page" href="/">Home</a>
+        {% elif language == "fr" %}
+        <a class="nav-link active" aria-current="page" href="/">Domicile</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link active" aria-current="page" href="/">Главная</a>
+       {% endif %}
+      
         {% else %}
+        {% if language == "en" %}
         <a class="nav-link " aria-current="page" href="/">Home</a>
+     {% elif language == "fr" %}
+     <a class="nav-link " aria-current="page" href="/">Domicile</a>
+     {% elif language == "ru"  %}
+     <a class="nav-link " aria-current="page" href="/">Главная</a>
+    {% endif %}
         {% endif %}
         {% if page == "market" or  page == "inventory" %}
         {% if page == "market" %}
+        {% if language == "en" %}
+
         <a class="nav-link active" href="/market/">TC market</a>
+        {% elif language == "fr" %}
+
+        <a class="nav-link active" href="/market/">TC Marché</a>
+       
+        {% elif language == "ru"  %}
+  
+        <a class="nav-link active" href="/market/">TC маркет</a>
+        {% endif %}
         <div style="margin-left: 1rem;">
           <form action='/market/'>
             <div class="dropdown">
@@ -42,7 +67,17 @@
           </form>
         </div>
         {% else %}
-        <a class="nav-link" href="/market/">TC market</a>
+        {% if language == "en" %}
+
+        <a class="nav-link " href="/market/">TC market</a>
+        {% elif language == "fr" %}
+
+        <a class="nav-link " href="/market/">TC Marché</a>
+       
+        {% elif language == "ru"  %}
+  
+        <a class="nav-link " href="/market/">TC маркет</a>
+        {% endif %}
         <div style="margin-left: 1rem;">
           <form action='/inventory/'>
             <div class="dropdown">
@@ -60,7 +95,17 @@
 
         {% else %}
         {% if request.user.is_authenticated %}
-        <a class="nav-link" href="/market/">TC market</a>
+        {% if language == "en" %}
+
+        <a class="nav-link " href="/market/">TC market</a>
+        {% elif language == "fr" %}
+
+        <a class="nav-link " href="/market/">TC Marché</a>
+       
+        {% elif language == "ru"  %}
+  
+        <a class="nav-link " href="/market/">TC маркет</a>
+        {% endif %}
         {% endif %}
         {% endif %}
       </nav>
@@ -68,33 +113,67 @@
       <nav class="nav nav-masthead justify-content-center float-md-end">
         {% if not request.user.is_authenticated %}
         {% if page == "login" %}
-
+        {% if language == "en" %}
         <a class="nav-link active" href="/login/">Login</a>
+        {% elif language == "fr" %}
+        <a class="nav-link active" href="/login/">Connexion</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link active" href="/login/">Войти</a>
+       {% endif %}
+
 
         {% else %}
-        <a class="nav-link" href="/login/">Login</a>
+        {% if language == "en" %}
+        <a class="nav-link " href="/login/">Login</a>
+        {% elif language == "fr" %}
+        <a class="nav-link " href="/login/">Connexion</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link " href="/login/">Войти</a>
+       {% endif %}
         {% endif %}
         
         {% if page == "register" %}
+        {% if language == "en" %}
         <a class="nav-link active" href="/registory/">Registory</a>
+        {% elif language == "fr" %}
+        <a class="nav-link active" href="/registory/">Registre</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link active" href="/registory/">Зарегистрироваться</a>
+       {% endif %}
+
         {% else %}
-        <a class="nav-link" href="/registory/">Registory</a>
+        {% if language == "en" %}
+        <a class="nav-link " href="/registory/">Registory</a>
+        {% elif language == "fr" %}
+        <a class="nav-link " href="/registory/">Registre</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link " href="/registory/">Зарегистрироваться</a>
+       {% endif %}
         {% endif %}
         {% endif %}
         {% if request.user.is_authenticated %}
        
       
         {% if page == "clicker" %}
+        {% if language == "en" %}
         <a class="nav-link active" href="/clicker/">clicker</a>
+        {% elif language == "fr" %}
+        <a class="nav-link active" href="/clicker/">Cliqueur</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link active" href="/clicker/">кликер</a>
+       {% endif %}
+   
         {% else %}
-        <a class="nav-link " href="/clicker/">clicker</a>
+        {% if language == "en" %}
+        <a class="nav-link" href="/clicker/">clicker</a>
+        {% elif language == "fr" %}
+        <a class="nav-link" href="/clicker/">Cliqueur</a>
+        {% elif language == "ru"  %}
+        <a class="nav-link " href="/clicker/">кликер</a>
+       {% endif %}
         {% endif %}
       
-        {% if page == "inventory" %}
-        <a class="nav-link active" href="/inventory/">Inventory</a>
-        {% else %}
-        <a class="nav-link " href="/inventory/">Inventory</a>
-        {% endif %}
+       
         {% endif %}
         {% if request.user.is_authenticated %}
         

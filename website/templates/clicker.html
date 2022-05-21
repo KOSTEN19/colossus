@@ -7,8 +7,30 @@
 </style>
 <main>
  
+    {% if language == "en" %}
+    <h2>Game clicker</h2>
+    {% elif language == "fr" %}
+    <h2>Jeu cliqueur</h2>
+
+    {% elif language == "ru" %}
     <h2>Игра кликер</h2>
+    {% endif %}
+    {% if language == "en" %}
+    <h2>Your level</h2>
+    {% elif language == "fr" %}
+    <h2>Votre niveau:</h2>
+    {% elif language == "ru" %}
+    <h2>Игра кликер</h2>
+    {% endif %}
+    
+    {% if language == "en" %}
+    <h3 id="level">Your level: 1</h3>
+    {% elif language == "fr" %}
+    <h3 id="level">Votre niveau: 1</h3>
+    {% elif language == "ru" %}
     <h3 id="level">Ваш уровень: 1</h3>
+    {% endif %}
+
     <br>
     <img  class ='click' value = '1' id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
 
@@ -19,11 +41,26 @@
      <input type="submit" class="btn btn-primary" value="top up"  onclick="resetB()">
 </form>
     <div class="d-grid gap-2 col-6 mx-auto par">
+        
+    {% if language == "en" %}
+    <input class = "gradient-button" type="button" id="1"  value="  Upgrade     100$   " onclick="update()">
+    {% elif language == "fr" %}
+    <input class = "gradient-button" type="button" id="1"  value="   Améliorez 1           100$   " onclick="update()">
+    {% elif language == "ru" %}
     <input class = "gradient-button" type="button" id="1"  value="    Прокачать           100$   " onclick="update()">
+    {% endif %}
+ 
 <!--    <input class = "gradient-button" type="button" id="2" type="button" value="Прокачать на 2 уровня|-150$" onclick="update1()">-->
 <!--    <input class = "gradient-button" type="button" id="3" type="button" value="Прокачать на 3 уровня|-250$" onclick="update2()">-->
 <!--    <input class = "gradient-button" type="button" id="4" type="button" value="Прокачать на 10 уровней|-500$" onclick="update3()">-->
-    <input class = "gradient-button" type="button" id="5" value="    Автокликер        10000$   " onclick="auto()">
+{% if language == "en" %}
+<input class = "gradient-button" type="button" id="5" value="    AutoClicker        10000$   " onclick="auto()">
+{% elif language == "fr" %}
+<input class = "gradient-button" type="button" id="5" value=" AutoClicker      10000$   " onclick="auto()">
+{% elif language == "ru" %}
+<input class = "gradient-button" type="button" id="5" value="    Автокликер        10000$   " onclick="auto()">
+{% endif %}
+
 
     </div>
     <form name=MyForm>
