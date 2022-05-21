@@ -15,20 +15,14 @@
     {% elif language == "ru" %}
     <h2>Игра кликер</h2>
     {% endif %}
-    {% if language == "en" %}
-    <h2>Your level</h2>
-    {% elif language == "fr" %}
-    <h2>Votre niveau:</h2>
-    {% elif language == "ru" %}
-    <h2>Игра кликер</h2>
-    {% endif %}
+    
     
     {% if language == "en" %}
-    <h3 id="level">Your level: 1</h3>
+    <h1 id="level">Your level: 1</h1>
     {% elif language == "fr" %}
-    <h3 id="level">Votre niveau: 1</h3>
+    <h1 id="level">Votre niveau: 1</h1>
     {% elif language == "ru" %}
-    <h3 id="level">Ваш уровень: 1</h3>
+    <h1 id="level">Ваш уровень: 1</h1>
     {% endif %}
 
     <br>
@@ -90,8 +84,8 @@ align-items: center;
 justify-content: center;
 }
 .click{
-width: 20%;
-height: 40%;
+width: 250px;
+height: 250px;
 }
 
 </style>
@@ -183,7 +177,7 @@ function pashalka() {
 }
 
 function level() {
-    document.getElementsByTagName("h3")[0].firstChild.data = "Ваш уровень: " + updating;
+    document.getElementsByTagName("h3")[0].firstChild.data = "Ваш уровень:" + updating;
 }
 
 function reboot() {
@@ -211,7 +205,7 @@ function dialog1() {
     score -= minus * 50;
     updating += minus;
     teg();
-    document.getElementsByTagName("h3")[0].firstChild.data = "Ваш уровень: " + updating;
+    document.getElementsByTagName("h1")[0].firstChild.data = "Ваш уровень: " + updating;
     if1();
     nan();
 }
