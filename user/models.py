@@ -11,4 +11,7 @@ def default_thing():
 class CustomUser(AbstractUser):
     """Class line"""
     profile_pic = models.ImageField(null=True, blank = True , upload_to = 'static/users/pictures', default='/static/wllp/7.png')
-    balance = models.IntegerField(default=100000)
+    balance = models.IntegerField(default=100)
+    spend_total = models.IntegerField(default=0)
+    nft_buyght = models.IntegerField(default=0)
+    nft_sell = models.IntegerField(default=0)
