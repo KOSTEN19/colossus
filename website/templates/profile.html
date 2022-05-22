@@ -5,6 +5,10 @@
         document.getElementById('foo').src = 'https://bayctron.com/_next/image?url=%2Fanimation%2Floading.gif&w=640&q=75'
 
     }
+
+    $(document).ready(function() {
+    $("#MyModal").modal();
+  });
 </script>
 <div style = 'width: 100%; height: 100%; margin-top: 150px;'>
     {% if request.user.profile_pic.url %}
