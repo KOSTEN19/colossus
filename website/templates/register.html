@@ -1,9 +1,41 @@
 {% include 'header.html' %}
 {% include 'style/login_register_style.html' %}
 
-<style>
-    *{
+
+<script>
+
+
+  function sayHello() {
+      
+    element = document.getElementById('style');
+  element.innerHTML=``
+  }
+  
+  setTimeout(sayHello, 900);
+  //element = document.getElementById('style');
+  //element.innerHTML=`color : green`
+  
+  
+  </script>
+  <style>
+      *{
         color: black;
+    }
+  </style>
+<style id = 'style'>
+  
+    @-webkit-keyframes fadeInDown {
+        0% {
+            
+            -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+        }
+
+        100% {
+       
+            -webkit-transform: none;
+            transform: none;
+        }
     }
 </style>
 <body> 
@@ -19,7 +51,7 @@
                 {% endfor %}
     <div>    
 
-        <input class="form-check-input" type="checkbox"> I have read </input>
+        <input required class="form-check-input" type="checkbox"> I have read </input>
 <p type="button" data-toggle="modal" data-target="#exampleModalLong" style = "color: blue;"> 
   privacy licence
   </p>
@@ -30,8 +62,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+
+       
           </button>
         </div>
         <div class="modal-body">
@@ -40,8 +72,8 @@
         </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+  
+          <button type="button" class="btn btn-primary">Close</button>
         </div>
       </div>
     </div>
