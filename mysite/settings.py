@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o6nx3e($z!e(0jvk9rx0k!k1^6l2*fs&_c+w&(d_7e1idme!8)'
 AUTH_USER_MODEL = 'users.CustomUser'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
 
 ALLOWED_HOSTS = ['*']
 
@@ -132,3 +135,7 @@ STATICFILES_DIRS = (
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/market/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Heroku: Update database configuration from $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
