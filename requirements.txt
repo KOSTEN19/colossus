@@ -4,3 +4,7 @@ Pillow
 chardet
 psycopg2-binary
 numpy
+gunicorn
+whitenoise
+dj-database-url
+
