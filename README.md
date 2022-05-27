@@ -10,11 +10,17 @@
 
 ```
 
+[gitlab project](https://gitlab.informatics.ru/2021-2022/mytischi/s105/hyperion/colossus)
 
-- _**Project Colossus**_
-    <details><summary>NFT площадка от программистов для людей</summary>
+[figma](https://www.figma.com/file/YWgpqDwhopIyp9T1D9UiaT/Untitled?node-id=0%3A1)
 
-</details>
+[patorjk](https://patorjk.com/software/taag)
+
+[languagetool](https://languagetool.org/ru)
+
+[docker](https://hub.docker.com/repository/docker/kosten19/colossus)
+
+# NFT площадка от программистов для людей
 
 ## Концепция
 
@@ -25,6 +31,20 @@
 1. Она сделана в **России**
 2. **Open Source** проект под лицензией GNU GPLv3
 3. Безопасность - мы **никому** не сливаем данные
+
+### _**HOW TO RUN PROJECT**_
+
+> python -m pip install --upgrade pip
+
+> pip install -r requirements.txt
+
+> python manage.py migrate --run-rsyncdb
+
+> python manage.py runserver
+
+### _**HOW TO clone docker container**_
+
+> docker pull kosten19/colossus:latest
 
 ## Интерфейс
 Coming soon ...
