@@ -1,0 +1,121 @@
+{% include 'header.html' %}
+</div>
+</body>
+<style>
+  a {
+    text-decoration: none;
+  }
+
+  .px-3 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .pictur {
+    border-radius: 20px 20px 0 0;
+    border-bottom: 0;
+    object-fit: contain;
+    max-height: 80%;
+    width: 100%;
+
+  }
+
+  .card-body1 {
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .left {
+    margin-left: 10px;
+    width: 70%;
+    height: 100%;
+
+  }
+
+  .right {
+    margin-right: 10px;
+    font-size: 15px;
+    width: 30%;
+    height: 100%;
+  }
+
+  .card {
+    border-radius: 20px;
+    border: 0;
+    transition: all 0.05s;
+    margin: 20px;
+
+  }
+
+  .desc {
+    font-size: 11px;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.04);
+  }
+</style>
+
+<main class="px-3">
+  {% for item in all_data %}
+  <a href="/market/{{item.id}}">
+
+    {% if item.in_market == True %}
+
+    <div class="card" style="width:  315px;  height:400px; color: black;opacity: 0.5;">
+      {% else %}
+      <div class="card" style="width:  315px;  height:400px; color: black;">
+        {% endif %}
+        <img class="pictur" src='{{item.image.url}}'>
+        <div class="card-body1">
+          <div class='left'>
+            <span style=" color: rgba(0,0,0,0.5);">{{item.owner}}<br></span>
+            <span style="font-weight: 900;">{{item.name|truncatechars_html:20}} # {{item.id}} <br></span>
+            <span class='desc'>{{item.description|truncatechars_html:60}}</span>
+          </div>
+          <div class="right">
+            {% if language == "en" %}
+            <span>Price<br></span>
+            {% elif language == "fr" %}
+            <span>Prix<br></span>
+            {% elif language == "ru" %}
+            <span>Цена<br></span>
+            {% endif %}
+      
+            <span>{{item.price}}</span>
+
+          </div>
+        </div>
+      </div>
+  </a>
+
+  {% endfor %}
+
+
+  <a href='/create/'>
+    <div class="card plusik add_nft" style="width:  315px;  height:400px; color: black; opacity: 0.5;">
+
+      {% if language == "en" %}
+      <h3>Add NFT</h3>
+      {% elif language == "fr" %}
+      <h3>Ajouter NFT</h3>
+      {% elif language == "ru" %}
+      <h3>Создать NFT</h3>
+      {% endif %}
+
+      <h1 class='plus'>+</h1>
+
+
+    </div>
+    <a href='/create/'></a>
+    </div>
+
+</main>
+{% include 'footer.html' %}

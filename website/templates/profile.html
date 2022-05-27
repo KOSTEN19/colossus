@@ -1,0 +1,68 @@
+{% include 'header.html' %}
+
+<script>
+    function standby() {
+        document.getElementById('foo').src = 'https://bayctron.com/_next/image?url=%2Fanimation%2Floading.gif&w=640&q=75'
+
+    }
+
+    $(document).ready(function() {
+    $("#MyModal").modal();
+  });
+</script>
+<div style = 'width: 100%; height: 100%; margin-top: 150px;'>
+    {% if request.user.profile_pic.url %}
+    
+    <img  src="{{request.user.profile_pic.url}}" id ='foo' onerror="standby()" style="width: 300px; height: 300px; margin: auto; align-items: center; text-align: center;" class="img-thumbnail" >
+    {% else %}
+    <img scr = 'https://bayctron.com/_next/image?url=%2Fanimation%2Floading.gif&w=640&q=75'>
+    {% endif %}
+    <h1 style="text-align: center;">{{form}}</h1>
+    <h3 class=" text-center " style="margin: 10px;"> {{request.user }}</h3>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Settings
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+         
+          <li>
+              <form method="post" enctype="multipart/form-data" action="/profile/" style="padding:10px">
+                <h5>Смена изображения профиля:</h5>
+                {% csrf_token %}
+                <p><span for='id_username'> File:   </span>
+                    <label for="formFile" class="form-label"></label>
+                    <input class="form-control" type="file"  accept="image/png, image/gif, image/jpeg"  name="myfile" required>
+                   </p>
+                    <div class="col" style='margin: 10px;'>
+                      <input type="submit" class="btn but btn-secondary" name="submit" value='Upload' /><br />
+                    </div>
+              </form>
+          </li>
+
+        </ul>
+    </div>
+    {{form.as_p}}
+    <table class="table" style="background-color: white;border-radius: 10px; margin-top: 40px;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Earned total</th>
+            <th scope="col">Spent total</th>
+            <th scope="col">NFTs bought</th>
+            <th scope="col">NFTs sold</th>
+          </tr>
+        </thead>
+    
+          <tr>
+            <th scope="row">1</th>
+       
+            <td>{{ Earned }} {{request.user.balance}}</td>
+            <td>{{ Spent }} {{request.user.spend_total}}</td>
+            <td>{{ NFTs_bought }} {{request.user.nft_buyght}}</td>
+            <td>{{ NFTs_sold }} {{request.user.nft_sell}}</td>
+        
+          
+
+      
+</div>
+{%include 'footer.html' %}

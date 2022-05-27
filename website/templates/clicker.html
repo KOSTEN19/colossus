@@ -1,0 +1,323 @@
+{% include  'header.html' %}
+<style>
+.click:active{
+    transform: scale(0.9);
+    transition: .1s;
+}
+</style>
+<main>
+ 
+    {% if language == "en" %}
+    <h2>Game clicker</h2>
+    {% elif language == "fr" %}
+    <h2>Jeu cliqueur</h2>
+
+    {% elif language == "ru" %}
+    <h2>Игра кликер</h2>
+    {% endif %}
+    
+    
+    {% if language == "en" %}
+    <h1 id="level">Your level: 1</h1>
+    {% elif language == "fr" %}
+    <h1 id="level">Votre niveau: 1</h1>
+    {% elif language == "ru" %}
+    <h1 id="level">Ваш уровень: 1</h1>
+    {% endif %}
+
+    <br>
+    <img  class ='click' value = '1' id="clickbtn" src="/static/wllp/click.png" onclick="clickBtn()">
+
+<form method="POST"  action='/clicker/'>
+    {% csrf_token %}
+    <br>
+    <input  readonly id ="score" name = 'balance' type = 'number' value = '0' onclick="resetB()">
+     <input type="submit" class="btn btn-primary" value="top up"  onclick="resetB()">
+</form>
+    <div class="d-grid gap-2 col-6 mx-auto par">
+        
+    {% if language == "en" %}
+    <input class = "gradient-button" type="button" id="1"  value="  Upgrade     100$   " onclick="update()">
+    {% elif language == "fr" %}
+    <input class = "gradient-button" type="button" id="1"  value="   Améliorez 1           100$   " onclick="update()">
+    {% elif language == "ru" %}
+    <input class = "gradient-button" type="button" id="1"  value="    Прокачать           100$   " onclick="update()">
+    {% endif %}
+ 
+<!--    <input class = "gradient-button" type="button" id="2" type="button" value="Прокачать на 2 уровня|-150$" onclick="update1()">-->
+<!--    <input class = "gradient-button" type="button" id="3" type="button" value="Прокачать на 3 уровня|-250$" onclick="update2()">-->
+<!--    <input class = "gradient-button" type="button" id="4" type="button" value="Прокачать на 10 уровней|-500$" onclick="update3()">-->
+{% if language == "en" %}
+<input class = "gradient-button" type="button" id="5" value="    AutoClicker        10000$   " onclick="auto()">
+{% elif language == "fr" %}
+<input class = "gradient-button" type="button" id="5" value=" AutoClicker      10000$   " onclick="auto()">
+{% elif language == "ru" %}
+<input class = "gradient-button" type="button" id="5" value="    Автокликер        10000$   " onclick="auto()">
+{% endif %}
+
+
+    </div>
+    <form name=MyForm>
+      <input name="stopwatch" size="10" value="00:00:00.00" disabled>
+    </form>
+  </main>
+{% include  'footer.html' %}
+<style>
+    .gradient-button {
+    text-decoration: none;
+    display: inline-block;
+    color: #ffffff;
+    width: 100%;
+    padding: 4% 1%;
+    margin: 10px ;
+    border: 10px solid #e0e0e0;
+    border-radius: 30px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: .5s;
+    background-color: #c4c4c4;
+}
+.par{
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.click{
+width: 250px;
+height: 250px;
+}
+
+</style>
+<script>
+var score = 0;
+var t = 0;
+
+var updating = 1;
+var minus = 0;
+score = +localStorage.getItem('score');
+if (!(!isNaN(parseFloat(score)) && isFinite(score))) score = 0
+window.onunload = () => {
+    localStorage.setItem('score', score)
+};
+teg();
+function teg() {
+  //  document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
+  }
+  function resetB() {
+    //new Audio('/static/coin.wav').play();
+    new Audio('/static/balance_up.wav').play();
+  //  document.getElementsByTagName("h1")[0].firstChild.data = score + "$";
+    score = 0
+
+}
+//+$
+function clickBtn() {
+    score = score + updating;
+    var Myelement = document.getElementById("score");
+    //parseInt(Myelement.value, 10) + 1;
+    Myelement.value = score+1
+    score= Math.abs(score)
+
+
+    teg();
+    new Audio('/static/coin.wav').play();
+    return false;
+}
+//Прокачка
+function update() {
+    score = score - 100 - Math.round(100*0.25*t);
+    if (score > 0) {
+        t+=1;
+        updating += 1;
+        level();
+        teg();
+        document.getElementById('1').value = '    Прокачать              '+ Math.round(100 + 100*0.25*t)+"$";
+        document.getElementById('5').value = '    Автокликер           '+ (10000+ 10000*t)+"$";
+
+    } else {
+        if1();
+        score = score + 100 + Math.round(100*0.25*t);
+    }
+}
+
+function if1() {
+
+}
+//автоклике
+function auto() {
+    score = score - 10000- 10000*t;
+    if (score > 0) {
+        teg();
+        if1();
+        document.getElementById('1').value = '    Прокачать              '+ Math.round(100 + 100*0.25*t);
+
+        document.getElementById('5').value = '    Автокликер           '+ (10000+ 10000*t);
+        setTimeout("plusauto()", 1000);
+    } else {
+        score = score + 10000+ 10000*t;
+    }
+}
+//вызов автокликера для его работы
+function plusauto() {
+    score += updating;
+    teg();
+    setTimeout("auto1()", 1000);
+}
+
+function auto1() {
+    score += updating;
+    setTimeout("plusauto()", 1000);
+    teg();
+}
+//временная пасхалка
+function pashalka() {
+    score += 10000;
+    teg();
+}
+
+function level() {
+    document.getElementsByTagName("h3")[0].firstChild.data = "Ваш уровень:" + updating;
+}
+
+function reboot() {
+    alert("Ваш уровень прокачки " + updating + ". Ваш баланс " + score + " .");
+}
+
+function dialog() {
+    minus = 1;
+    minus = parseInt(prompt("На сколько уровней прокачать(x*50, и это минус ваши деньги)", 5));
+    if (!(!isNaN(parseFloat(minus)) && isFinite(minus))) return;
+    score = score - 100 * minus-  100*0.25*t*minus;
+    if (score > 0) {
+        t+=minus;
+        dialog1();
+        teg();
+        nan();
+    } else {
+        if1();
+        score = score + 100 * minus +100*0.25*t*minus;
+    }
+
+}
+
+function dialog1() {
+    score -= minus * 50;
+    updating += minus;
+    teg();
+    document.getElementsByTagName("h1")[0].firstChild.data = "Ваш уровень: " + updating;
+    if1();
+    nan();
+}
+//таймер
+window.onload = () => {
+    StartStop();
+}
+//объявляем переменные
+var base = 60;
+var clocktimer, dateObj, dh, dm, ds, ms;
+var readout = '';
+var h = 1,
+    m = 1,
+    tm = 1,
+    s = 0,
+    ts = 0,
+    ms = 0,
+    init = 0;
+//функция для очистки поля
+function ClearСlock() {
+    clearTimeout(clocktimer);
+    h = 1;
+    m = 1;
+    tm = 1;
+    s = 0;
+    ts = 0;
+    ms = 0;
+    init = 0;
+    readout = '00:00:00';
+    document.MyForm.stopwatch.value = readout;
+}
+//функция для старта секундомера
+function StartTIME() {
+    var cdateObj = new Date();
+    var t = (cdateObj.getTime() - dateObj.getTime()) - (s * 1000);
+    if (t > 999) {
+        s++;
+    }
+    if (s >= (m * base)) {
+        ts = 0;
+        m++;
+    } else {
+        ts = parseInt((ms / 100) + s);
+        if (ts >= base) {
+            ts = ts - ((m - 1) * base);
+        }
+    }
+    if (m > (h * base)) {
+        tm = 1;
+        h++;
+    } else {
+        tm = parseInt((ms / 100) + m);
+        if (tm >= base) {
+            tm = tm - ((h - 1) * base);
+        }
+    }
+    ms = Math.round(t / 10);
+    if (ms > 99) {
+        ms = 0;
+    }
+    if (ms == 0) {
+        ms = '00';
+    }
+    if (ms > 0 && ms <= 9) {
+        ms = '0' + ms;
+    }
+    if (ts > 0) {
+        ds = ts;
+        if (ts < 10) {
+            ds = '0' + ts;
+        }
+    } else {
+        ds = '00';
+    }
+    dm = tm - 1;
+    if (dm > 0) {
+        if (dm < 10) {
+            dm = '0' + dm;
+        }
+    } else {
+        dm = '00';
+    }
+    dh = h - 1;
+    if (dh > 0) {
+        if (dh < 10) {
+            dh = '0' + dh;
+        }
+    } else {
+        dh = '00';
+    }
+    readout = dh + ':' + dm + ':' + ds;
+    document.MyForm.stopwatch.value = readout;
+    clocktimer = setTimeout("StartTIME()", 1);
+}
+//Функция запуска и остановки
+function StartStop() {
+    if (init == 0) {
+        ClearСlock();
+        dateObj = new Date();
+        StartTIME();
+        init = 1;
+    } else {
+        clearTimeout(clocktimer);
+        init = 0;
+    }
+}
+
+function nan() {
+    if (money == NaN) {
+        money = 0;
+    }
+}
+</script>
+
+
