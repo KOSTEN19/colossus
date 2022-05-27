@@ -11,10 +11,7 @@
 ```
 
 
-- _**Project Colossus**_
-    <details><summary>NFT площадка от программистов для людей</summary>
-
-</details>
+NFT площадка от программистов для людей
 
 ## Концепция
 
@@ -25,6 +22,16 @@
 1. Она сделана в **России**
 2. **Open Source** проект под лицензией GNU GPLv3
 3. Безопасность - мы **никому** не сливаем данные
+
+### Установка
+
+> python -m pip install --upgrade pip
+
+> pip install -r requirements.txt
+
+> python manage.py migrate --run-syncdb
+
+> python manage.py runserver
 
 ## Интерфейс
 Coming soon ...
