@@ -448,7 +448,14 @@
         {% elif language == "ru" %}
         <li> <a class="nav-link active" href="/inventory/">инвентарь</a></li>
         {% endif %}
+        {% if language == "en" %}
         <li><a class="nav-link" href="/logout">Logout</a></li>
+        {% elif language == "fr" %}
+        <li><a class="nav-link" href="/logout">Sortir</a></li>
+        {% elif language == "ru"  %}
+        <li><a class="nav-link" href="/logout">Выйти</a></li>
+       {% endif %}
+
 
     </ul>
 
