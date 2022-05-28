@@ -109,18 +109,18 @@
             <h5 class='desc'>{{form.description}}
                 <form action="/trade/" method='POST'>
                     {% csrf_token %}
-                    {% if form.in_market == False %}
+                    {% if form.in_market == False or form.owner != request.user.username %}
                     <button class="btn btn-primary " name="make" value='{{form.id}}'>Make trade </button>
                     {% endif %}
                 </form>
-                      {% if form.owner == request.user.username %}
+                {% if form.owner == request.user.username %}
                 <form action='/create/' method="POST">
                     {% csrf_token %}
                     <td scope="row"> <button class="btn btn-primary " name="edit_id" value='{{form.id}}'>Edit nft </button>
                     </td>
                 </form>
                 {% if form.in_market == True %}
-          
+              
                 <form action='/trade/' method="POST">
                     {% csrf_token %}
                     <td scope="row"> <button class="btn btn-danger " name="delete" value='{{form.id}}'>Delete trade
