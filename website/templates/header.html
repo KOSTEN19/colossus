@@ -53,31 +53,7 @@
   
         <a class="nav-link active" href="/market/">TC маркет</a>
         {% endif %}
-        <div style="margin-left: 1rem;">
-          <form action='/market/'>
-            <div class="dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                sort</a>
-              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>By name</button></li>
-                <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>By price</button></li>
-              </ul>
-            </div>
-          </form>
-        </div>
-        {% else %}
         {% if language == "en" %}
-
-        <a class="nav-link " href="/market/">TC market</a>
-        {% elif language == "fr" %}
-
-        <a class="nav-link " href="/market/">TC Marché</a>
-       
-        {% elif language == "ru"  %}
-  
-        <a class="nav-link " href="/market/">TC маркет</a>
-        {% endif %}
         <div style="margin-left: 1rem;">
           <form action='/inventory/'>
             <div class="dropdown">
@@ -91,6 +67,95 @@
             </div>
           </form>
         </div>
+        {% elif language == "fr" %}
+        <div style="margin-left: 1rem;">
+          <form action='/inventory/'>
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                tri</a>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>Par nom</button></li>
+                <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>Par prix</button></li>
+              </ul>
+            </div>
+          </form>
+        </div>
+       
+        {% elif language == "ru"  %}
+  
+        <div style="margin-left: 1rem;">
+          <form action='/inventory/'>
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                сортировка</a>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>По именам</button></li>
+                <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>По цене</button></li>
+              </ul>
+            </div>
+          </form>
+        </div>
+        {% endif %}
+        {% else %}
+        {% if language == "en" %}
+
+        <a class="nav-link " href="/market/">TC market</a>
+        {% elif language == "fr" %}
+
+        <a class="nav-link " href="/market/">TC Marché</a>
+       
+        {% elif language == "ru"  %}
+  
+        <a class="nav-link " href="/market/">TC маркет</a>
+        {% endif %}
+        {% if language == "en" %}
+        <div style="margin-left: 1rem;">
+          <form action='/inventory/'>
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                sort</a>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>By name</button></li>
+                <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>By price</button></li>
+              </ul>
+            </div>
+          </form>
+        </div>
+        {% elif language == "fr" %}
+        <div style="margin-left: 1rem;">
+          <form action='/inventory/'>
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                tri</a>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>Par nom</button></li>
+                <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>Par prix</button></li>
+              </ul>
+            </div>
+          </form>
+        </div>
+       
+        {% elif language == "ru"  %}
+  
+        <div style="margin-left: 1rem;">
+          <form action='/inventory/'>
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                сортировка</a>
+              <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li> <button type="submit" class="btn dropdown-item" value='name' name='sort'>По именам</button></li>
+                <li> <button type="submit" class="btn dropdown-item" value='price' name='sort'>По цене</button></li>
+              </ul>
+            </div>
+          </form>
+        </div>
+        {% endif %}
+ 
         {% endif %}
 
         {% else %}
