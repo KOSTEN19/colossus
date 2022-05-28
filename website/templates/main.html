@@ -5,7 +5,14 @@
 <main class="px-3">
   
   <h1 class="fw-bold">Project Colossus</h1>
+  {% if language == "en" %}
+  <p class="lead">From developers for everyone</p>
+  {% elif language == "fr" %}
+  <p class="lead">Des développeurs pour tous</p>
+  {% elif language == "ru"  %}
   <p class="lead">От разработчиков для всех</p>
+ {% endif %}
+
   {% if not request.user.is_authenticated %}
   {% if language == "en" %}
   <p class="lead"><a type="button" href="/registory/" class="btn btn-primary btn-lg" id="buttonalert">Get started</a></p>
