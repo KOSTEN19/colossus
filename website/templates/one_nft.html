@@ -109,26 +109,31 @@
             <h5 class='desc'>{{form.description}}
                 <form action="/trade/" method='POST'>
                     {% csrf_token %}
+                    {% if form.in_market == False %}
                     <button class="btn btn-primary " name="make" value='{{form.id}}'>Make trade </button>
+                    {% endif %}
                 </form>
                 <form action='/create/' method="POST">
                     {% csrf_token %}
                     <td scope="row"> <button class="btn btn-primary " name="edit_id" value='{{form.id}}'>Edit nft </button>
                     </td>
                 </form>
+                {% if form.in_market == True %}
+                {% if form.owner == request.user.username %}
+                <form action='/trade/' method="POST">
+                    {% csrf_token %}
+                    <td scope="row"> <button class="btn btn-danger " name="delete" value='{{form.id}}'>Delete trade
+                        </button></td>
+                </form>
+                {% endif %}
+                {% endif %}
             </h5>
            
-            {% if form.in_market == True %}
-            <form action='/trade/' method="POST">
-                {% csrf_token %}
-                <td scope="row"> <button class="btn btn-danger " name="delete" value='{{form.id}}'>Delete trade
-                    </button></td>
-            </form>
-            {% endif %}
+      
         </div>
     </div>
     <div class="right">
-        {% if form.owner == request.user.username %}
+        
         <div class="tabliza">
             <tr>
                 <table class="table table-striped">
@@ -149,18 +154,19 @@
                             <td scope="row">{{item.message}}</td>
                             <td scope="row">{{item.author}}</td>
                             <td scope="row">{{item.time}}</td>
-
+                            {% if form.owner == request.user.username %}
                             <form action='/transaction/' method="POST">
                                 {% csrf_token %}
                                 <td scope="row"> <button class="btn btn-primary" name="trade_id"
                                         value='{{item.id}}'>Make trade </button></td>
                             </form>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
         </div>
-        {% endif %}
+     
     </div>
 
 

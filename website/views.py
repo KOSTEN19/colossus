@@ -2,6 +2,7 @@
 import time
 import numpy as np
 from PIL import Image, ImageChops
+from priority import PseudoStreamError
 from website.models import NFT, Trade_sell, Trade_buy
 from website.forms import CustomUserCreationForm, CustomUser
 from django.contrib import messages
@@ -155,10 +156,17 @@ def agreement(request):
 def data_post_id(request, post_id):
     """Function line."""
     query = get_object_or_404(NFT, id=post_id)
-    context = {'form': query,
-               'all_data': Trade_buy.objects.filter(id_nft=post_id),
-               'language' : get_language(request)
-               }
+    if str(query.owner) == str(request.user):
+
+        context = {'form': query,
+                'all_data': Trade_buy.objects.filter(id_nft=post_id),
+                'language' : get_language(request)
+                }
+    else:
+         context = {'form': query,
+                'all_data': Trade_buy.objects.filter(id_nft=post_id, author =str(request.user)),
+                'language' : get_language(request)
+                }            
     return render(request, 'one_nft.html', context)
 
 
@@ -270,6 +278,8 @@ def trade_page(request):
             query = get_object_or_404(NFT, id=delete)
             if str(request.user) == str(query.owner):
                 trade = get_object_or_404(Trade_sell, id_nft = query.id)
+                trade_buy = Trade_buy.objects.filter(id_nft=query.id)
+                trade_buy.delete()
                 query.in_market=False
                 query.save()
                 trade.delete()
@@ -299,7 +309,7 @@ def trade_page(request):
                     'nft_name': str(trade.name),
                     'time': str(get_time()),
                     'owner': str(trade.owner),
-                    'user': str(request.user),'language' : get_language(request)
+                    'user': str(request.user.username),'language' : get_language(request)
                 })
         response = render(request, 'make_trade.html', context)
         request.session['nft_id'] = str(make)
@@ -328,17 +338,33 @@ def transaction(request):
 
 
     if request.method == 'POST':
+        trade_id = None
+        make = None
+        trade_price = None
+        sell = None
         try:
             make = request.session.get('nft_id')
+            print(make)
+    
             query = get_object_or_404(NFT, id=int(make))
-            #edit_id = request.POST.get('edit_id')
-            trade_price = request.POST.get('trade_price')
-            trade_id = request.POST.get('trade_id')
-            sell = request.POST.get('sell')
+            print(query)
+        except: pass   
+        try:
 
+            #edit_id = request.POST.get('edit_id')
+            trade_id = request.POST.get('trade_id')
         except: pass
+        try:    
+            trade_price = request.POST.get('trade_price')
+        except: pass    
+        try: 
+            sell = request.POST.get('sell')
+        except: pass    
+
         if trade_id != None:
+         
             trade_buy = get_object_or_404(Trade_buy,id=trade_id)
+            query = get_object_or_404(NFT, id=trade_buy.id_nft)
             trade_sell = get_object_or_404(Trade_sell, id_nft = query.id)
             buyer = get_object_or_404(CustomUser, username=trade_buy.author)
             request.user.balance+=abs(trade_buy.new_price)
