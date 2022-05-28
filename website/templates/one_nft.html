@@ -109,6 +109,8 @@
             <h5 class='desc'>{{form.description}}
                 <form action="/trade/" method='POST'>
                     {% csrf_token %}
+                    {% if form.in_market == False and form.owner != request.user.username %}
+                    {% else %}
                     {% if form.in_market == False or form.owner != request.user.username %}
                     <button class="btn btn-primary " name="make" value='{{form.id}}'>Make trade </button>
                     {% endif %}
@@ -126,6 +128,7 @@
                     <td scope="row"> <button class="btn btn-danger " name="delete" value='{{form.id}}'>Delete trade
                         </button></td>
                 </form>
+                {% endif %}
                 {% endif %}
                 {% endif %}
             </h5>
