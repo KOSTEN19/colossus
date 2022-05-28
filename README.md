@@ -13,6 +13,16 @@
 
 NFT площадка от программистов для людей
 
+[gitlab project](https://gitlab.informatics.ru/2021-2022/mytischi/s105/hyperion/colossus)
+
+[figma](https://www.figma.com/file/YWgpqDwhopIyp9T1D9UiaT/Untitled?node-id=0%3A1)
+
+[patorjk](https://patorjk.com/software/taag)
+
+[languagetool](https://languagetool.org/ru)
+
+[docker](https://hub.docker.com/repository/docker/kosten19/colossus)
+
 ## Концепция
 
 ### Что это такое?
